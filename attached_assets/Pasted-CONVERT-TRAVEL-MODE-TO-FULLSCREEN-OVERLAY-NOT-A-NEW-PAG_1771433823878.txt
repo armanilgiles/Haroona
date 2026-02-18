@@ -1,0 +1,164 @@
+CONVERT TRAVEL MODE TO FULLSCREEN OVERLAY (NOT A NEW PAGE)
+
+Update the existing Travel Mode so it becomes a full-screen immersive overlay mode on the SAME PAGE (do NOT create a new route/page). Keep the app’s current premium styling and functionality, but change the Travel Mode UI hierarchy so the globe dominates the screen.
+
+⸻
+
+1) Core requirement
+	•	Travel Mode must be a full-viewport overlay using position: fixed (or equivalent).
+	•	It must cover the whole screen:
+	•	top: 0, left: 0, width: 100vw, height: 100vh
+	•	z-index above everything
+	•	It must NOT navigate to another page/route.
+
+State:
+	•	Keep using isTravelMode boolean.
+	•	Travel Mode opens when clicking Explore Map and closes on:
+	•	Close button (X)
+	•	Esc key
+	•	Backdrop click (optional, but recommended)
+
+⸻
+
+2) Visual layout (fullscreen experience)
+
+A) Background / Atmosphere
+
+When Travel Mode is active:
+	•	Add a dim/blur backdrop across the entire screen:
+	•	background: rgba(0,0,0,0.35) OR a soft dark gradient
+	•	optional blur: backdrop-filter: blur(6px)
+	•	Disable background scrolling (document.body.style.overflow = "hidden" while open)
+
+B) Globe Stage should be dominant
+
+Create a “stage” container inside the fullscreen overlay:
+	•	The globe stage should take most of the screen
+	•	desktop: ~75–85% width for globe area
+	•	mobile: globe uses ~90–100% width
+	•	The globe should be noticeably larger than normal browsing mode.
+	•	Center the globe visually (not off to the side).
+	•	Keep floating city labels/markers clickable and clear.
+
+⸻
+
+3) Minimal HUD (top bar overlay)
+
+Add a small top HUD bar pinned at the top of the fullscreen overlay:
+
+Left:
+	•	label “Travel Mode”
+
+Center:
+	•	“Currently exploring: {selectedCity}”
+	•	animate this text when the city changes (fade/slide)
+
+Right:
+	•	Close button (X) with aria-label “Close Travel Mode”
+
+HUD style:
+	•	subtle glass pill or thin bar
+	•	not too tall
+	•	premium spacing
+
+⸻
+
+4) Destinations panel changes (stop competing with globe)
+
+Right now the Destinations list is too heavy. Make it secondary.
+
+Implement Destinations as a slide-in panel instead of always visible:
+	•	Add a button in the HUD or near the right edge: “Destinations”
+	•	When clicked, it toggles a panel: isDestinationsOpen
+
+Panel behavior:
+	•	slides in from the right
+	•	width:
+	•	desktop: 320–360px
+	•	mobile: 85–90% width
+	•	panel should be glassmorphism / soft card
+	•	include the list of destinations and “visited” chips inside
+
+When panel is closed:
+	•	globe gets full attention
+	•	no big sidebar competing visually
+
+⸻
+
+5) Interaction rules (important)
+
+When Travel Mode is open:
+	•	Underlying page must not be clickable or scrollable.
+	•	Only the fullscreen overlay is interactive.
+
+Implement:
+	•	pointer-events: none on the underlying page wrapper OR
+	•	ensure overlay intercepts all clicks
+	•	body scroll locked
+
+⸻
+
+6) City selection ritual (make it feel special)
+
+When user selects a city in Travel Mode (from globe marker/label OR from Destinations panel list):
+	•	Update selectedCity
+	•	Add to visitedCities if not already there
+	•	Trigger a micro animation:
+	1.	selected label/marker pulses/glows briefly
+	2.	“Currently exploring” text fades out and in with new city
+	3.	Optional toast near bottom: “Now exploring: {selectedCity}” (auto disappears)
+
+Optional but recommended:
+	•	After selecting a city, keep Travel Mode open (do not auto-close) so user can explore multiple cities.
+	•	If you prefer auto-close, delay 600–900ms then close.
+
+⸻
+
+7) Framer Motion animation specs
+
+Use Framer Motion for:
+	•	overlay fade in/out
+	•	globe stage subtle scale in/out
+	•	destinations panel slide in/out
+	•	“Currently exploring” text transition on city change
+
+Animation style:
+	•	calm, premium (no bounce)
+	•	duration 200–350ms
+	•	easing: easeOut
+
+⸻
+
+8) Accessibility
+	•	Travel Mode overlay should have:
+	•	role="dialog"
+	•	aria-modal="true"
+	•	Esc closes
+	•	Close button is reachable by keyboard
+	•	Focus should move to the close button on open (best effort)
+
+⸻
+
+9) Keep existing functionality working
+
+Do not break:
+	•	selectedCity filtering of hero + curated picks
+	•	visitedCities / Style Passport logic
+	•	favorites
+	•	newsletter
+	•	responsiveness
+
+Travel Mode should reuse the existing globe logic and handlers—just render it bigger and inside the fullscreen overlay.
+
+⸻
+
+10) Acceptance checklist (must pass)
+	•	Explore Map opens fullscreen Travel Mode (same page)
+	•	Globe is noticeably bigger and centered
+	•	Background page is dimmed and cannot be interacted with
+	•	Destinations is a toggleable slide-in panel (not competing with globe)
+	•	Selecting city updates selectedCity + adds to visited + triggers micro animation
+	•	Close works via X and Esc
+	•	No TS errors, no console errors
+
+If anything is ambiguous, make sensible defaults and proceed—prioritize a working fullscreen Travel Mode.
