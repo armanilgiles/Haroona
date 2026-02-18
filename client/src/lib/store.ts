@@ -11,6 +11,8 @@ interface AppState {
   visitedCities: string[];
   isTravelMode: boolean;
   isRemoteLockEnabled: boolean;
+  hasShownRouteUnlock: boolean;
+  hasShownBadgeUnlock: boolean;
   setSelectedCity: (city: string) => void;
   setSelectedCategory: (category: string) => void;
   setSelectedStyle: (style: string) => void;
@@ -21,6 +23,8 @@ interface AppState {
   toggleTravelMode: () => void;
   setTravelMode: (value: boolean) => void;
   toggleRemoteLock: () => void;
+  markRouteUnlockShown: () => void;
+  markBadgeUnlockShown: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -35,6 +39,8 @@ export const useAppStore = create<AppState>()(
       visitedCities: [],
       isTravelMode: false,
       isRemoteLockEnabled: true,
+      hasShownRouteUnlock: false,
+      hasShownBadgeUnlock: false,
       setSelectedCity: (city) =>
         set((state) => {
           const visited = state.visitedCities.includes(city)
@@ -56,10 +62,18 @@ export const useAppStore = create<AppState>()(
           }
           return { favorites: newFavorites };
         }),
-      clearVisitedCities: () => set({ visitedCities: [], selectedCity: "Paris" }),
+      clearVisitedCities: () =>
+        set({
+          visitedCities: [],
+          selectedCity: "Paris",
+          hasShownRouteUnlock: false,
+          hasShownBadgeUnlock: false,
+        }),
       toggleTravelMode: () => set((state) => ({ isTravelMode: !state.isTravelMode })),
       setTravelMode: (value) => set({ isTravelMode: value }),
       toggleRemoteLock: () => set((state) => ({ isRemoteLockEnabled: !state.isRemoteLockEnabled })),
+      markRouteUnlockShown: () => set({ hasShownRouteUnlock: true }),
+      markBadgeUnlockShown: () => set({ hasShownBadgeUnlock: true }),
     }),
     {
       name: "aruona-store",
@@ -69,6 +83,8 @@ export const useAppStore = create<AppState>()(
         selectedVibe: state.selectedVibe,
         visitedCities: state.visitedCities,
         isRemoteLockEnabled: state.isRemoteLockEnabled,
+        hasShownRouteUnlock: state.hasShownRouteUnlock,
+        hasShownBadgeUnlock: state.hasShownBadgeUnlock,
       }),
     }
   )

@@ -3,7 +3,7 @@ import createGlobe from "cobe";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Globe, MapPin, RotateCcw } from "lucide-react";
+import { ArrowRight, Globe, MapPin, RotateCcw, Route, Award, Copy, Check } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { CITIES } from "@/lib/mock-data";
 import { useToast } from "@/hooks/use-toast";
@@ -117,17 +117,73 @@ function GlobeCanvas() {
 }
 
 function StylePassport() {
-  const { selectedCity, visitedCities, clearVisitedCities } = useAppStore();
+  const {
+    selectedCity, visitedCities, clearVisitedCities,
+    hasShownRouteUnlock, hasShownBadgeUnlock,
+    markRouteUnlockShown, markBadgeUnlockShown,
+    setTravelMode,
+  } = useAppStore();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
   const maxVisible = 6;
   const visible = visitedCities.slice(0, maxVisible);
   const remaining = visitedCities.length - maxVisible;
 
+  const isRouteUnlocked = visitedCities.length >= 3;
+  const isBadgeUnlocked = visitedCities.length >= 7;
+  const routeCities = visitedCities.slice(0, 3);
+
+  useEffect(() => {
+    if (isRouteUnlocked && !hasShownRouteUnlock) {
+      markRouteUnlockShown();
+      toast({ title: "Route unlocked", description: "You've explored 3 cities" });
+    }
+  }, [isRouteUnlocked, hasShownRouteUnlock]);
+
+  useEffect(() => {
+    if (isBadgeUnlocked && !hasShownBadgeUnlock) {
+      markBadgeUnlockShown();
+      toast({ title: "Explorer badge unlocked", description: "You've explored all 7 cities" });
+    }
+  }, [isBadgeUnlocked, hasShownBadgeUnlock]);
+
+  const handleSharePassport = () => {
+    const cities = visitedCities.join(", ");
+    const text = `I explored ${visitedCities.length} cities on Aruona: ${cities}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      toast({ title: "Copied to clipboard", description: "Share your journey with friends" });
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  const shouldAnimateCard = (isRouteUnlocked && !hasShownRouteUnlock) || (isBadgeUnlocked && !hasShownBadgeUnlock);
+
   return (
-    <Card className="p-4 bg-card/60 backdrop-blur-sm border-border/30" data-testid="card-style-passport">
+    <Card
+      className={`p-4 bg-card/60 backdrop-blur-sm border-border/30 transition-shadow duration-300 ${
+        shouldAnimateCard ? "shadow-[0_0_16px_rgba(240,196,168,0.3)]" : ""
+      }`}
+      data-testid="card-style-passport"
+    >
       <div className="flex items-center justify-between gap-2 mb-2">
-        <h3 className="font-serif text-sm font-semibold" data-testid="text-style-passport-title">
-          Style Passport
-        </h3>
+        <div className="flex items-center gap-2">
+          <h3 className="font-serif text-sm font-semibold" data-testid="text-style-passport-title">
+            Style Passport
+          </h3>
+          {isBadgeUnlocked && (
+            <motion.div
+              initial={!hasShownBadgeUnlock ? { opacity: 0, scale: 0.8 } : false}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Badge className="text-[9px] rounded-full bg-[#F0C4A8]/20 text-foreground border-[#F0C4A8]/40" data-testid="badge-explorer">
+                <Award className="w-2.5 h-2.5 mr-0.5" />
+                Aruona Explorer
+              </Badge>
+            </motion.div>
+          )}
+        </div>
         {visitedCities.length > 0 && (
           <Button
             variant="ghost"
@@ -169,6 +225,55 @@ function StylePassport() {
               </Badge>
             )}
           </div>
+        )}
+
+        {isRouteUnlocked && (
+          <motion.div
+            className="pt-2 mt-1 border-t border-border/30 space-y-1.5"
+            initial={!hasShownRouteUnlock ? { opacity: 0, y: 8 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            data-testid="section-route-unlocked"
+          >
+            <div className="flex items-center gap-1.5">
+              <Route className="w-3.5 h-3.5 text-[#F0C4A8]" />
+              <span className="text-[11px] font-semibold">Route Unlocked</span>
+            </div>
+            <p className="text-[10px] text-muted-foreground" data-testid="text-route-path">
+              {routeCities.join(" → ")}
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full text-[10px] rounded-full gap-1"
+              onClick={() => setTravelMode(true)}
+              data-testid="button-travel-route"
+            >
+              <MapPin className="w-3 h-3" />
+              Travel this route
+            </Button>
+          </motion.div>
+        )}
+
+        {isBadgeUnlocked && (
+          <motion.div
+            className="pt-2 mt-1 border-t border-border/30"
+            initial={!hasShownBadgeUnlock ? { opacity: 0, y: 8 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 }}
+            data-testid="section-badge-unlocked"
+          >
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full text-[10px] rounded-full gap-1"
+              onClick={handleSharePassport}
+              data-testid="button-share-passport"
+            >
+              {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+              {copied ? "Copied" : "Share Passport"}
+            </Button>
+          </motion.div>
         )}
       </div>
     </Card>

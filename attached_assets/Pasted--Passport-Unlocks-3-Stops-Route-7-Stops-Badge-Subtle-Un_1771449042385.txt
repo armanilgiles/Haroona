@@ -1,0 +1,92 @@
+ Passport Unlocks (3 Stops = Route, 7 Stops = Badge) + Subtle Unlock Animation
+
+Add “Psychological Gravity” to Style Passport by introducing simple unlock milestones. Do NOT redesign the page layout. Keep the current premium aesthetic. This is behavior + small UI additions only.
+
+⸻
+
+1) Add two milestone unlocks driven by visitedCities
+
+Use the existing Passport tracking (visited cities / stops collected). Add these milestones:
+
+Milestone A: 3 Stops → Unlock “Route”
+	•	When visitedCities.length reaches 3 or more, set isRouteUnlocked = true.
+	•	Show a new section inside the Passport card titled: “Route Unlocked”
+	•	The route can be generated simply (MVP):
+	•	Use the first 3 visited cities in order, formatted like:
+	•	“Your Route: Paris → Tokyo → London”
+	•	Include a small CTA button: “Travel this Route”
+	•	Clicking it should:
+	•	open Travel Mode OR
+	•	sequentially highlight/auto-select each city (lightweight)
+	•	If sequential travel is too complex right now, implement a simpler behavior:
+	•	Clicking “Travel this Route” opens Travel Mode and shows a hint: “Follow your route: Paris → Tokyo → London”
+	•	It’s okay if the CTA is mostly motivational for MVP.
+
+Milestone B: 7 Stops → Unlock “Explorer Badge”
+	•	When visitedCities.length reaches 7 or more, set isBadgeUnlocked = true.
+	•	Show a small badge/pill in the Passport card: “World Explorer” (or “Aruona Explorer”)
+	•	Add a secondary CTA: “Share Passport”
+	•	MVP acceptable behavior:
+	•	Copies a text summary to clipboard (e.g., “I explored 7 cities on Aruona: …”)
+	•	Or triggers a simple modal with the text ready to copy
+	•	Do not overbuild images/sharing yet.
+
+⸻
+
+2) Unlock animations (subtle, premium)
+
+When a milestone is hit for the first time:
+	•	Trigger a small animation in the Passport card:
+	•	quick fade/slide in of the new section
+	•	a soft glow pulse on the Passport card border for ~300ms
+	•	Also show a subtle toast message:
+	•	At 3 stops: “Route unlocked”
+	•	At 7 stops: “Explorer badge unlocked”
+	•	Ensure unlock animations do NOT repeat every time the page re-renders.
+	•	They should trigger only the first time the user crosses the threshold.
+
+Implementation guidance:
+	•	Track “hasShownRouteUnlock” and “hasShownBadgeUnlock” in state (or persisted state if you prefer).
+	•	If selected city is persisted across refresh, consider persisting these flags too so unlock doesn’t replay on refresh.
+
+⸻
+
+3) Reset behavior
+
+The Passport “Clear” action should:
+	•	clear visitedCities
+	•	reset isRouteUnlocked and isBadgeUnlocked
+	•	reset unlock flags so the user can unlock again in the same session
+
+⸻
+
+4) Keep it consistent with existing product language
+
+Use calm, soft wording (Aruona voice):
+	•	“Route unlocked”
+	•	“Travel this route”
+	•	“Explorer badge”
+
+Avoid harsh gamification language like “achievement” “level up” etc.
+
+⸻
+
+5) Acceptance tests
+	•	Start fresh: 0 stops → Passport shows no unlock section
+	•	Visit 1–2 cities → still locked
+	•	Visit 3rd unique city:
+	•	route section appears
+	•	unlock animation plays once
+	•	toast appears once
+	•	Visit 7th unique city:
+	•	badge appears
+	•	unlock animation plays once
+	•	toast appears once
+	•	Refresh:
+	•	unlocked state remains consistent (preferably persists)
+	•	unlock animation does not replay unless Passport was cleared
+	•	No console errors / TS errors
+
+If any detail is ambiguous, pick sensible MVP defaults and proceed. Focus on milestone motivation, not heavy feature scope.
+
+⸻
