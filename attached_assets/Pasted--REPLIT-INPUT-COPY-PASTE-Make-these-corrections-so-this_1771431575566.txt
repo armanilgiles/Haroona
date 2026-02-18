@@ -1,0 +1,63 @@
+✅ REPLIT INPUT (COPY/PASTE)
+
+Make these corrections so this stops feeling like a standard shopping app and becomes Aruona (travel-through-style). Do not redesign everything — keep the current layout, but change the core loop + language + behavior.
+
+1) Globe-first behavior (must)
+	•	Make the globe selection drive the entire page.
+	•	Add a global state: selectedCity (default: “Paris”).
+	•	When user clicks a city label/marker on the globe OR clicks a city card (Paris/Tokyo/etc), it should:
+	•	update selectedCity
+	•	update the big featured banner (hero city image + title)
+	•	filter “Curated Picks” to only products from that city
+	•	visually highlight the active city label/marker
+
+2) Add a “Style Passport” panel (signature feature)
+
+Add a small premium card under “Shop the Globe” on the right called Style Passport:
+	•	Shows:
+	•	“Current Stop: {selectedCity}”
+	•	“Stops Collected: {count}”
+	•	A row of small pill chips for visited cities (max 6 visible, rest shows “+N”)
+	•	When a user selects a city, it should be added to visitedCities if not already there.
+	•	Provide a “Clear” action to reset visited cities.
+
+3) Replace generic shopping language (soft Aruona wording)
+
+Change UI copy to match Aruona’s calm discovery tone:
+	•	Replace “Search” button text with “Explore”
+	•	Replace “Filter” with “Refine”
+	•	Replace “Sort” with “Adjust”
+	•	Replace “Trending” heading with “Current Moods”
+	•	Replace “Trending For You” with “Picked For You”
+	•	Keep category pills but make them secondary to vibe tags.
+
+4) Make the “vibe tags” primary
+
+Above the category pills, add a “Vibes” row:
+	•	“Parisian Chic”
+	•	“Minimal Summer”
+	•	“Quiet Luxury”
+	•	“Tokyo Streetwear”
+When a vibe is selected:
+	•	set selectedVibe
+	•	filter curated picks accordingly (vibe is part of product data)
+
+5) Add the “travel transition” micro-interaction
+
+When city changes:
+	•	animate the hero banner + curated picks with a soft fade/slide (Framer Motion)
+	•	add a subtle toast/label near the globe: “Now exploring: {selectedCity}”
+
+6) Data model updates (keep simple)
+
+Update seeded/mock data so each product includes:
+	•	city (Paris/Tokyo/London/New York/Italy etc)
+	•	vibe (Parisian Chic / Minimal Summer / Quiet Luxury / Tokyo Streetwear)
+
+7) Do NOT break existing features
+	•	Keep newsletter working
+	•	Keep favorites working
+	•	Keep current premium styles
+	•	Keep responsive layout
+
+After changes, ensure the app runs with no TypeScript errors and no console errors.

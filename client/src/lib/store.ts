@@ -1,27 +1,40 @@
 import { create } from "zustand";
 
 interface AppState {
-  selectedCity: string | null;
+  selectedCity: string;
   selectedCategory: string;
   selectedStyle: string;
+  selectedVibe: string;
   searchTerm: string;
   favorites: Set<string>;
-  setSelectedCity: (city: string | null) => void;
+  visitedCities: string[];
+  setSelectedCity: (city: string) => void;
   setSelectedCategory: (category: string) => void;
   setSelectedStyle: (style: string) => void;
+  setSelectedVibe: (vibe: string) => void;
   setSearchTerm: (term: string) => void;
   toggleFavorite: (productId: string) => void;
+  clearVisitedCities: () => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
-  selectedCity: null,
+  selectedCity: "Paris",
   selectedCategory: "All",
   selectedStyle: "All",
+  selectedVibe: "All",
   searchTerm: "",
   favorites: new Set<string>(),
-  setSelectedCity: (city) => set({ selectedCity: city }),
+  visitedCities: ["Paris"],
+  setSelectedCity: (city) =>
+    set((state) => {
+      const visited = state.visitedCities.includes(city)
+        ? state.visitedCities
+        : [...state.visitedCities, city];
+      return { selectedCity: city, visitedCities: visited };
+    }),
   setSelectedCategory: (category) => set({ selectedCategory: category }),
   setSelectedStyle: (style) => set({ selectedStyle: style }),
+  setSelectedVibe: (vibe) => set({ selectedVibe: vibe }),
   setSearchTerm: (term) => set({ searchTerm: term }),
   toggleFavorite: (productId) =>
     set((state) => {
@@ -33,4 +46,5 @@ export const useAppStore = create<AppState>((set) => ({
       }
       return { favorites: newFavorites };
     }),
+  clearVisitedCities: () => set({ visitedCities: [] }),
 }));

@@ -9,18 +9,23 @@ export const CITIES = [
 ];
 
 export const PRODUCTS = [
-  { id: "1", name: "Linen Dress", price: 320, brand: "Reformation", category: "Dresses", style: "Parisian Chic", cityId: "paris", cityName: "Paris", image: "/images/products/linen-dress.png", isBestSeller: false },
-  { id: "2", name: "Leather Bag", price: 1200, brand: "Gucci", category: "Bags", style: "Quiet Luxury", cityId: "italy", cityName: "Italy", image: "/images/products/leather-bag.png", isBestSeller: true },
-  { id: "3", name: "Street Sneaker", price: 189, brand: "Nike", category: "Shoes", style: "Tokyo Streetwear", cityId: "tokyo", cityName: "Tokyo", image: "/images/products/street-sneaker.png", isBestSeller: false },
-  { id: "4", name: "Silk Blouse", price: 450, brand: "Celine", category: "Dresses", style: "Minimal Summer", cityId: "paris", cityName: "Paris", image: "/images/products/silk-blouse.png", isBestSeller: false },
-  { id: "5", name: "Gold Necklace", price: 890, brand: "Cartier", category: "Accessories", style: "Quiet Luxury", cityId: "london", cityName: "London", image: "/images/products/gold-necklace.png", isBestSeller: true },
-  { id: "6", name: "Navy Blazer", price: 780, brand: "Tom Ford", category: "Men", style: "Parisian Chic", cityId: "london", cityName: "London", image: "/images/products/navy-blazer.png", isBestSeller: false },
-  { id: "7", name: "Designer Sunglasses", price: 520, brand: "Prada", category: "Accessories", style: "Minimal Summer", cityId: "italy", cityName: "Italy", image: "/images/products/sunglasses.png", isBestSeller: false },
-  { id: "8", name: "Cashmere Scarf", price: 340, brand: "Loro Piana", category: "Accessories", style: "Quiet Luxury", cityId: "copenhagen", cityName: "Copenhagen", image: "/images/products/cashmere-scarf.png", isBestSeller: false },
+  { id: "1", name: "Linen Dress", price: 320, brand: "Reformation", category: "Dresses", style: "Parisian Chic", vibe: "Parisian Chic", cityId: "paris", cityName: "Paris", image: "/images/products/linen-dress.png", isBestSeller: false },
+  { id: "2", name: "Leather Bag", price: 1200, brand: "Gucci", category: "Bags", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: "italy", cityName: "Italy", image: "/images/products/leather-bag.png", isBestSeller: true },
+  { id: "3", name: "Street Sneaker", price: 189, brand: "Nike", category: "Shoes", style: "Tokyo Streetwear", vibe: "Tokyo Streetwear", cityId: "tokyo", cityName: "Tokyo", image: "/images/products/street-sneaker.png", isBestSeller: false },
+  { id: "4", name: "Silk Blouse", price: 450, brand: "Celine", category: "Dresses", style: "Minimal Summer", vibe: "Minimal Summer", cityId: "paris", cityName: "Paris", image: "/images/products/silk-blouse.png", isBestSeller: false },
+  { id: "5", name: "Gold Necklace", price: 890, brand: "Cartier", category: "Accessories", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: "london", cityName: "London", image: "/images/products/gold-necklace.png", isBestSeller: true },
+  { id: "6", name: "Navy Blazer", price: 780, brand: "Tom Ford", category: "Men", style: "Parisian Chic", vibe: "Parisian Chic", cityId: "london", cityName: "London", image: "/images/products/navy-blazer.png", isBestSeller: false },
+  { id: "7", name: "Designer Sunglasses", price: 520, brand: "Prada", category: "Accessories", style: "Minimal Summer", vibe: "Minimal Summer", cityId: "italy", cityName: "Italy", image: "/images/products/sunglasses.png", isBestSeller: false },
+  { id: "8", name: "Cashmere Scarf", price: 340, brand: "Loro Piana", category: "Accessories", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: "copenhagen", cityName: "Copenhagen", image: "/images/products/cashmere-scarf.png", isBestSeller: false },
+  { id: "9", name: "Graphic Tee", price: 95, brand: "Comme des Garcons", category: "Men", style: "Tokyo Streetwear", vibe: "Tokyo Streetwear", cityId: "tokyo", cityName: "Tokyo", image: "/images/products/street-sneaker.png", isBestSeller: false },
+  { id: "10", name: "Woven Basket Bag", price: 680, brand: "Loewe", category: "Bags", style: "Minimal Summer", vibe: "Minimal Summer", cityId: "marrakech", cityName: "Marrakech", image: "/images/products/leather-bag.png", isBestSeller: false },
+  { id: "11", name: "Tailored Trousers", price: 560, brand: "Brunello Cucinelli", category: "Men", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: "copenhagen", cityName: "Copenhagen", image: "/images/products/navy-blazer.png", isBestSeller: false },
+  { id: "12", name: "Midi Skirt", price: 290, brand: "Sezane", category: "Dresses", style: "Parisian Chic", vibe: "Parisian Chic", cityId: "paris", cityName: "Paris", image: "/images/products/silk-blouse.png", isBestSeller: true },
 ];
 
 export const CATEGORIES = ["All", "Dresses", "Bags", "Shoes", "Men", "Accessories"];
 export const STYLES = ["All", "Parisian Chic", "Minimal Summer", "Quiet Luxury", "Tokyo Streetwear"];
+export const VIBES = ["Parisian Chic", "Minimal Summer", "Quiet Luxury", "Tokyo Streetwear"];
 
 export const TRENDING_STYLES = [
   { name: "All", icon: "grid" },

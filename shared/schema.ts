@@ -21,6 +21,7 @@ export const products = pgTable("products", {
   brand: text("brand").notNull(),
   category: text("category").notNull(),
   style: text("style").notNull(),
+  vibe: text("vibe").notNull().default("Quiet Luxury"),
   cityId: varchar("city_id").notNull(),
   cityName: text("city_name").notNull(),
   image: text("image").notNull(),

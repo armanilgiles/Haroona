@@ -45,8 +45,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async seedData(): Promise<void> {
-    const existingCities = await db.select().from(cities);
-    if (existingCities.length > 0) return;
+    const existingProducts = await db.select().from(products);
+    if (existingProducts.length >= 12) return;
+
+    await db.delete(products);
+    await db.delete(cities);
+    await db.delete(categories);
 
     await db.insert(cities).values([
       { name: "Paris", country: "France", image: "/images/cities/paris.png", followers: 22000, markerColor: "#F5C5A3", latitude: 48.8566, longitude: 2.3522 },
@@ -63,14 +67,18 @@ export class DatabaseStorage implements IStorage {
     allCities.forEach((c) => { cityMap[c.name.toLowerCase()] = c.id; });
 
     await db.insert(products).values([
-      { name: "Linen Dress", price: 320, brand: "Reformation", category: "Dresses", style: "Parisian Chic", cityId: cityMap["paris"], cityName: "Paris", image: "/images/products/linen-dress.png", isBestSeller: false },
-      { name: "Leather Bag", price: 1200, brand: "Gucci", category: "Bags", style: "Quiet Luxury", cityId: cityMap["italy"], cityName: "Italy", image: "/images/products/leather-bag.png", isBestSeller: true },
-      { name: "Street Sneaker", price: 189, brand: "Nike", category: "Shoes", style: "Tokyo Streetwear", cityId: cityMap["tokyo"], cityName: "Tokyo", image: "/images/products/street-sneaker.png", isBestSeller: false },
-      { name: "Silk Blouse", price: 450, brand: "Celine", category: "Dresses", style: "Minimal Summer", cityId: cityMap["paris"], cityName: "Paris", image: "/images/products/silk-blouse.png", isBestSeller: false },
-      { name: "Gold Necklace", price: 890, brand: "Cartier", category: "Accessories", style: "Quiet Luxury", cityId: cityMap["london"], cityName: "London", image: "/images/products/gold-necklace.png", isBestSeller: true },
-      { name: "Navy Blazer", price: 780, brand: "Tom Ford", category: "Men", style: "Parisian Chic", cityId: cityMap["london"], cityName: "London", image: "/images/products/navy-blazer.png", isBestSeller: false },
-      { name: "Designer Sunglasses", price: 520, brand: "Prada", category: "Accessories", style: "Minimal Summer", cityId: cityMap["italy"], cityName: "Italy", image: "/images/products/sunglasses.png", isBestSeller: false },
-      { name: "Cashmere Scarf", price: 340, brand: "Loro Piana", category: "Accessories", style: "Quiet Luxury", cityId: cityMap["copenhagen"], cityName: "Copenhagen", image: "/images/products/cashmere-scarf.png", isBestSeller: false },
+      { name: "Linen Dress", price: 320, brand: "Reformation", category: "Dresses", style: "Parisian Chic", vibe: "Parisian Chic", cityId: cityMap["paris"], cityName: "Paris", image: "/images/products/linen-dress.png", isBestSeller: false },
+      { name: "Leather Bag", price: 1200, brand: "Gucci", category: "Bags", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: cityMap["italy"], cityName: "Italy", image: "/images/products/leather-bag.png", isBestSeller: true },
+      { name: "Street Sneaker", price: 189, brand: "Nike", category: "Shoes", style: "Tokyo Streetwear", vibe: "Tokyo Streetwear", cityId: cityMap["tokyo"], cityName: "Tokyo", image: "/images/products/street-sneaker.png", isBestSeller: false },
+      { name: "Silk Blouse", price: 450, brand: "Celine", category: "Dresses", style: "Minimal Summer", vibe: "Minimal Summer", cityId: cityMap["paris"], cityName: "Paris", image: "/images/products/silk-blouse.png", isBestSeller: false },
+      { name: "Gold Necklace", price: 890, brand: "Cartier", category: "Accessories", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: cityMap["london"], cityName: "London", image: "/images/products/gold-necklace.png", isBestSeller: true },
+      { name: "Navy Blazer", price: 780, brand: "Tom Ford", category: "Men", style: "Parisian Chic", vibe: "Parisian Chic", cityId: cityMap["london"], cityName: "London", image: "/images/products/navy-blazer.png", isBestSeller: false },
+      { name: "Designer Sunglasses", price: 520, brand: "Prada", category: "Accessories", style: "Minimal Summer", vibe: "Minimal Summer", cityId: cityMap["italy"], cityName: "Italy", image: "/images/products/sunglasses.png", isBestSeller: false },
+      { name: "Cashmere Scarf", price: 340, brand: "Loro Piana", category: "Accessories", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: cityMap["copenhagen"], cityName: "Copenhagen", image: "/images/products/cashmere-scarf.png", isBestSeller: false },
+      { name: "Graphic Tee", price: 95, brand: "Comme des Garcons", category: "Men", style: "Tokyo Streetwear", vibe: "Tokyo Streetwear", cityId: cityMap["tokyo"], cityName: "Tokyo", image: "/images/products/street-sneaker.png", isBestSeller: false },
+      { name: "Woven Basket Bag", price: 680, brand: "Loewe", category: "Bags", style: "Minimal Summer", vibe: "Minimal Summer", cityId: cityMap["marrakech"], cityName: "Marrakech", image: "/images/products/leather-bag.png", isBestSeller: false },
+      { name: "Tailored Trousers", price: 560, brand: "Brunello Cucinelli", category: "Men", style: "Quiet Luxury", vibe: "Quiet Luxury", cityId: cityMap["copenhagen"], cityName: "Copenhagen", image: "/images/products/navy-blazer.png", isBestSeller: false },
+      { name: "Midi Skirt", price: 290, brand: "Sezane", category: "Dresses", style: "Parisian Chic", vibe: "Parisian Chic", cityId: cityMap["paris"], cityName: "Paris", image: "/images/products/silk-blouse.png", isBestSeller: true },
     ]);
 
     await db.insert(categories).values([
