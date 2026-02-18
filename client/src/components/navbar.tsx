@@ -8,12 +8,20 @@ export function NavBar() {
     <nav className="flex items-center justify-between gap-4 px-4 py-3 md:px-6 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
       <SidebarTrigger data-testid="button-sidebar-toggle" />
 
-      <h1
-        className="font-serif text-xl md:text-2xl tracking-[0.3em] font-medium select-none"
-        data-testid="text-logo"
-      >
-        ARUONA
-      </h1>
+      <div className="flex flex-col items-center select-none">
+        <h1
+          className="font-serif text-xl md:text-2xl tracking-[0.3em] font-medium"
+          data-testid="text-logo"
+        >
+          ARUONA
+        </h1>
+        <p
+          className="hidden sm:block text-[9px] md:text-[10px] tracking-[0.2em] text-muted-foreground/60 -mt-0.5"
+          data-testid="text-tagline"
+        >
+          Travel the world through style.
+        </p>
+      </div>
 
       <div className="flex items-center gap-2">
         <Button size="icon" variant="ghost" data-testid="button-search-nav">
