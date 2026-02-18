@@ -1,0 +1,67 @@
+Reduce Hero Dominance + Add City-Change Pulse on Globe Labels
+
+Make two polish improvements to increase the globe’s perceived authority. Do NOT change layout structure, data, or functionality. This is visual hierarchy + micro-motion only.
+
+⸻
+
+1) Reduce hero saturation/contrast slightly (make it less dominant)
+
+The hero banner image currently has too much emotional weight and steals attention from the globe. Tone it down slightly so the globe has more breathing room.
+
+Requirements:
+	•	Apply a subtle visual adjustment to the hero image container only (not the whole page):
+	•	reduce saturation to ~92–94% of current
+	•	reduce contrast slightly (small amount)
+	•	optionally reduce brightness a tiny amount if needed (very subtle)
+	•	Do this for the hero banner in normal browse mode.
+	•	Keep the hero still premium and beautiful — we are not “washing it out,” just lowering dominance.
+	•	Ensure the overlay text (“Currently Exploring”, city name) stays readable. If the text becomes less readable, adjust the hero overlay gradient slightly (not the text).
+
+Acceptance:
+	•	The hero still looks premium, but it no longer visually overpowers the globe.
+	•	The globe becomes easier to notice at a glance.
+
+⸻
+
+2) Add micro “pulse” animation to globe labels when city changes (authority cue)
+
+When the selected city changes (via globe click or city card click), give the globe labels a tiny premium micro-motion so the UI feels responsive and “alive.”
+
+Requirements:
+	•	On selectedCity change:
+	•	animate the active city label (the one just selected) with a quick pulse:
+	•	scale up slightly then return to normal
+	•	total duration around 150ms (fast)
+	•	ease-out
+	•	optionally add a very subtle glow increase for the active label during the pulse (tiny, not flashy)
+	•	Only pulse the newly selected label (not all labels).
+	•	Do not introduce jarring animations or bounce effects.
+
+Implementation guidance:
+	•	If labels are React elements, use Framer Motion on the label chip for the active label and trigger the animation when selectedCity changes.
+	•	If labels are not motion components, implement a minimal CSS-based keyframe and apply it temporarily to the active label when city changes.
+	•	Ensure rapid city switching does not stack animations or cause jitter:
+	•	new selection should cancel/override the previous pulse.
+
+Acceptance:
+	•	Clicking different cities rapidly feels snappy and premium.
+	•	Only the active label pulses.
+	•	No console errors.
+
+⸻
+
+3) Do not change behavior
+	•	Do not alter existing logic for city selection, filtering, persistence, travel mode, passport.
+	•	This is purely visual polish.
+
+⸻
+
+4) Quick test checklist
+	•	Select Paris → Tokyo → London quickly
+	•	hero updates as before
+	•	active label pulses each time (no jitter)
+	•	hero feels slightly calmer and less dominant
+	•	Check desktop + mobile responsiveness
+	•	No TypeScript errors / console errors
+
+If any detail is ambiguous, choose subtle defaults and proceed. Keep the changes minimal but noticeable.

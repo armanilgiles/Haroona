@@ -7,6 +7,7 @@ import { ArrowRight, Globe, MapPin, RotateCcw } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { CITIES } from "@/lib/mock-data";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 const MARKER_LOCATIONS = [
   { location: [48.8566, 2.3522] as [number, number], size: 0.08, name: "Paris" },
@@ -202,18 +203,22 @@ export function GlobeSection() {
             "New York": "bottom-[30%] left-[20%]",
           };
           return (
-            <button
+            <motion.button
               key={marker.name}
-              className={`absolute ${positions[marker.name]} rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm cursor-pointer transition-all ${
+              className={`absolute ${positions[marker.name]} rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm cursor-pointer transition-colors ${
                 isActive
-                  ? "bg-[#F0C4A8] text-foreground scale-110"
+                  ? "bg-[#F0C4A8] text-foreground shadow-[0_0_12px_rgba(240,196,168,0.4)]"
                   : "bg-white/80 backdrop-blur-sm text-foreground/80"
               }`}
               onClick={() => handleCitySelect(marker.name)}
+              animate={isActive
+                ? { scale: [1, 1.15, 1], transition: { duration: 0.15, ease: "easeOut" } }
+                : { scale: 1 }
+              }
               data-testid={`button-globe-marker-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
             >
               {marker.name}
-            </button>
+            </motion.button>
           );
         })}
       </div>
