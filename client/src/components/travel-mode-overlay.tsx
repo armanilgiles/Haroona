@@ -41,12 +41,12 @@ function TravelGlobe() {
           phi: 0.3,
           theta: 0.15,
           dark: 0.1,
-          diffuse: 2.0,
+          diffuse: 2.2,
           mapSamples: 20000,
-          mapBrightness: 4.0,
+          mapBrightness: 3.8,
           baseColor: [1, 0.92, 0.88],
           markerColor: [0.95, 0.75, 0.6],
-          glowColor: [1, 0.92, 0.85],
+          glowColor: [1, 0.94, 0.88],
           markers: MARKER_LOCATIONS.map((m) => ({
             location: m.location,
             size: m.size,
@@ -82,7 +82,7 @@ function TravelGlobe() {
     <canvas
       ref={canvasRef}
       className="w-full aspect-square cursor-grab active:cursor-grabbing"
-      style={{ maxWidth: "600px", margin: "0 auto", display: "block" }}
+      style={{ display: "block" }}
       onPointerDown={(e) => {
         pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
       }}
@@ -154,22 +154,29 @@ export function TravelModeOverlay() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
           role="dialog"
           aria-modal="true"
           aria-label="Travel Mode"
           data-testid="overlay-travel-mode"
         >
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-md"
+            className="absolute inset-0 bg-black/50 backdrop-blur-lg"
             onClick={closeTravelMode}
             data-testid="backdrop-travel-mode"
           />
 
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
+            }}
+          />
+
           <div className="relative z-10 flex flex-col w-full h-full pointer-events-none">
             <motion.div
-              className="pointer-events-auto mx-auto mt-4 flex items-center gap-4 px-5 py-2.5 rounded-full border border-white/15 bg-card/70 backdrop-blur-xl shadow-lg"
-              initial={{ opacity: 0, y: -20 }}
+              className="pointer-events-auto mx-auto mt-3 md:mt-5 flex items-center gap-3 md:gap-4 px-4 md:px-5 py-2 rounded-full border border-white/10 bg-black/30 backdrop-blur-xl shadow-lg"
+              initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.05 }}
@@ -177,10 +184,10 @@ export function TravelModeOverlay() {
             >
               <div className="flex items-center gap-2">
                 <Compass className="w-4 h-4 text-[#F0C4A8]" />
-                <span className="font-serif text-sm font-semibold" data-testid="text-travel-mode-label">Travel Mode</span>
+                <span className="font-serif text-sm font-semibold text-white/90" data-testid="text-travel-mode-label">Travel Mode</span>
               </div>
 
-              <div className="w-px h-4 bg-border/30" />
+              <div className="w-px h-4 bg-white/15" />
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -192,17 +199,17 @@ export function TravelModeOverlay() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                 >
                   <MapPin className="w-3.5 h-3.5 text-[#F0C4A8]" />
-                  <span className="text-xs text-muted-foreground hidden sm:inline">Currently exploring:</span>
-                  <span className="text-xs font-semibold" data-testid="text-travel-current-city">{selectedCity}</span>
+                  <span className="text-xs text-white/50 hidden sm:inline">Currently exploring:</span>
+                  <span className="text-xs font-semibold text-white/90" data-testid="text-travel-current-city">{selectedCity}</span>
                 </motion.div>
               </AnimatePresence>
 
-              <div className="w-px h-4 bg-border/30" />
+              <div className="w-px h-4 bg-white/15" />
 
               <Button
                 variant="ghost"
                 size="sm"
-                className="rounded-full text-xs gap-1.5"
+                className="rounded-full text-xs gap-1.5 text-white/80 hover:text-white"
                 onClick={() => setIsDestinationsOpen(!isDestinationsOpen)}
                 data-testid="button-toggle-destinations"
               >
@@ -214,7 +221,7 @@ export function TravelModeOverlay() {
                 ref={closeButtonRef}
                 variant="ghost"
                 size="icon"
-                className="rounded-full"
+                className="rounded-full text-white/60 hover:text-white"
                 onClick={closeTravelMode}
                 aria-label="Close Travel Mode"
                 data-testid="button-close-travel-mode"
@@ -224,39 +231,52 @@ export function TravelModeOverlay() {
             </motion.div>
 
             <motion.div
-              className="pointer-events-auto flex-1 flex items-center justify-center px-4 py-4 min-h-0"
-              initial={{ opacity: 0, scale: 0.9 }}
+              className="pointer-events-auto flex-1 flex items-center justify-center min-h-0 px-4"
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: 0.08 }}
               data-testid="container-travel-stage"
             >
-              <div className="relative w-full max-w-[600px]">
+              <div
+                className="relative flex items-center justify-center"
+                style={{
+                  width: "min(1100px, 92vw)",
+                  height: "min(680px, 72vh)",
+                }}
+              >
+              <div
+                className="relative w-full mx-auto"
+                style={{
+                  maxWidth: "min(640px, 90%)",
+                  filter: "drop-shadow(0 0 100px rgba(240,196,168,0.15))",
+                }}
+              >
                 <TravelGlobe />
 
                 {MARKER_LOCATIONS.map((marker) => {
                   const isActive = selectedCity === marker.name;
                   const positions: Record<string, string> = {
-                    "Paris": "top-[22%] right-[10%]",
-                    "Tokyo": "top-[28%] left-[6%]",
-                    "London": "top-[14%] right-[26%]",
-                    "New York": "bottom-[26%] left-[14%]",
-                    "Italy": "top-[38%] right-[18%]",
-                    "Copenhagen": "top-[12%] right-[16%]",
-                    "Marrakech": "bottom-[38%] right-[22%]",
+                    "Paris": "top-[20%] right-[8%]",
+                    "Tokyo": "top-[30%] left-[4%]",
+                    "London": "top-[12%] right-[22%]",
+                    "New York": "bottom-[24%] left-[10%]",
+                    "Italy": "top-[40%] right-[6%]",
+                    "Copenhagen": "top-[8%] right-[14%]",
+                    "Marrakech": "bottom-[34%] right-[8%]",
                   };
                   if (!positions[marker.name]) return null;
                   return (
                     <motion.button
                       key={marker.name}
-                      className={`absolute ${positions[marker.name]} rounded-full px-3 py-1.5 text-xs font-medium shadow-md cursor-pointer transition-colors ${
+                      className={`absolute ${positions[marker.name]} rounded-full px-2.5 py-1 text-[11px] md:text-xs md:px-3 md:py-1.5 font-medium cursor-pointer transition-colors ${
                         isActive
-                          ? "bg-[#F0C4A8] text-foreground shadow-[0_0_16px_rgba(240,196,168,0.6)]"
-                          : "bg-white/85 backdrop-blur-sm text-foreground/80"
+                          ? "bg-[#F0C4A8] text-foreground shadow-[0_0_20px_rgba(240,196,168,0.55)]"
+                          : "bg-white/80 backdrop-blur-sm text-foreground/80 shadow-sm"
                       }`}
                       onClick={() => handleCitySelect(marker.name)}
                       whileTap={{ scale: 0.96 }}
-                      animate={isActive ? { scale: [1, 1.05, 1], transition: { duration: 0.4 } } : {}}
+                      animate={isActive ? { scale: [1, 1.04, 1], transition: { duration: 0.4 } } : {}}
                       data-testid={`button-travel-marker-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
                     >
                       {marker.name}
@@ -264,20 +284,21 @@ export function TravelModeOverlay() {
                   );
                 })}
               </div>
+              </div>
             </motion.div>
 
             <motion.div
-              className="pointer-events-auto mx-auto mb-6 flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-card/60 backdrop-blur-xl shadow-md"
-              initial={{ opacity: 0, y: 20 }}
+              className="pointer-events-auto mx-auto mb-5 flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-black/25 backdrop-blur-xl"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
+              transition={{ duration: 0.3, ease: "easeOut", delay: 0.12 }}
             >
-              <Globe className="w-3.5 h-3.5 text-muted-foreground" />
-              <span className="text-[11px] text-muted-foreground">
+              <Globe className="w-3 h-3 text-white/40" />
+              <span className="text-[10px] text-white/50">
                 {visitedCities.length} of {MARKER_LOCATIONS.length} explored
               </span>
-              <div className="w-20 h-1.5 rounded-full bg-muted overflow-hidden">
+              <div className="w-16 h-1 rounded-full bg-white/10 overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-[#F0C4A8]"
                   initial={{ width: 0 }}
@@ -300,7 +321,7 @@ export function TravelModeOverlay() {
                   onClick={() => setIsDestinationsOpen(false)}
                 />
                 <motion.div
-                  className="fixed top-0 right-0 z-[102] h-full w-[340px] max-w-[85vw] border-l border-white/15 bg-card/85 backdrop-blur-xl shadow-2xl flex flex-col"
+                  className="fixed top-0 right-0 z-[102] h-full w-[340px] max-w-[85vw] border-l border-white/10 bg-card/90 backdrop-blur-2xl shadow-2xl flex flex-col"
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}

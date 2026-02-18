@@ -1,0 +1,96 @@
+ POLISH TRAVEL MODE (CINEMATIC FRAMING + IMMERSION)
+
+Refine the existing Travel Mode fullscreen overlay. Do NOT add new features. This task is purely visual polish + layout composition so Travel Mode feels cinematic and intentional.
+
+1) Fix globe framing / composition (most important)
+
+Right now the globe is cropped awkwardly on the right and the left side feels empty. Make the composition feel intentional.
+
+Implement these changes:
+	•	Add a TravelStage container that fills the overlay (width: 100%, height: 100%) and centers its content.
+	•	Place the globe inside a wrapper with explicit sizing and positioning rules:
+	•	Desktop:
+	•	globe wrapper max width: min(1100px, 92vw)
+	•	globe wrapper height: min(680px, 72vh)
+	•	center it horizontally and vertically
+	•	Ensure the globe is not “half-cut” unless it looks intentionally cinematic.
+	•	Choose ONE of these framing styles and implement it cleanly:
+A) Centered Full Globe (preferred):
+	•	Globe appears mostly centered and fully visible
+	•	Labels distribute naturally around it
+OR
+B) Cinematic Crop (acceptable only if intentional):
+	•	Crop the globe slightly but keep it balanced (not chopped at the edge)
+	•	Ensure the visible portion is centered in the stage so it feels designed, not accidental
+
+Also:
+	•	Ensure city labels never collide with the HUD and do not overlap each other.
+	•	If labels overlap, automatically offset slightly or reduce label scale in Travel Mode.
+
+2) Increase immersion (stronger backdrop + vignette)
+
+Travel Mode currently feels too “polite.” Increase contrast so the globe feels like it steps forward and the shopping UI recedes.
+	•	Increase overlay darkness:
+	•	backdrop color should be closer to: rgba(0,0,0,0.50) (or equivalent)
+	•	Add a subtle vignette layer on top of the backdrop:
+	•	a radial gradient that darkens edges more than center
+	•	keep it subtle, premium (no harsh black rings)
+	•	Keep blur, but prioritize contrast:
+	•	backdrop-filter: blur(8px) is fine if supported, otherwise fallback gracefully
+
+3) Make the globe pop (subtle glow + contrast, not tacky)
+	•	Slightly increase globe rim glow / atmosphere glow in Travel Mode ONLY
+	•	Add a soft shadow behind the globe wrapper:
+	•	large blur, low opacity
+	•	Do not oversaturate. Keep the “museum-quality pastel” look.
+
+4) Improve HUD integration (less detached)
+
+Your top HUD is floating too separately. Make it feel integrated into the scene.
+	•	Keep the HUD pill, but apply:
+	•	backdrop-filter: blur(10px)
+	•	slightly more transparency
+	•	softer border
+	•	Reduce visual weight of the close button circle:
+	•	keep it visible, but less “outlined”
+	•	Position HUD with more intentional spacing:
+	•	top: 20px (desktop), top: 12px (mobile)
+	•	centered horizontally
+
+5) Travel progress pill (bottom) polish
+
+The “7 of 7 explored” pill is good but make it feel more premium:
+	•	Slightly smaller height
+	•	More blur/glass effect
+	•	Ensure it stays centered and doesn’t overlap labels
+
+6) Animation polish (subtle)
+
+Do not add new animations—only refine existing ones:
+	•	Overlay fade in/out: 250–350ms easeOut
+	•	Globe stage scale: tiny (0.98 → 1) on open
+	•	No bounce.
+
+7) Responsiveness
+
+Make sure Travel Mode looks good at:
+	•	1440px desktop
+	•	1024px laptop
+	•	768px tablet
+	•	375px mobile
+
+On mobile:
+	•	Globe should be centered and as large as possible
+	•	HUD stays pinned and does not cover labels (reduce label sizes slightly if needed)
+
+8) Acceptance checklist
+
+After changes:
+	•	Globe framing feels intentional (not awkwardly chopped)
+	•	Screen feels more immersive (darker + vignette)
+	•	Globe stands out clearly from blurred background
+	•	HUD feels integrated (glass + blur, less detached)
+	•	No console errors / TS errors
+	•	No new features added
+
+If anything is ambiguous, choose best defaults and proceed.
