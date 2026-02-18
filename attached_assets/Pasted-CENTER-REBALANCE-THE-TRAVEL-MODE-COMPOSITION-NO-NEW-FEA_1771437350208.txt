@@ -1,0 +1,67 @@
+CENTER + REBALANCE THE TRAVEL MODE COMPOSITION (NO NEW FEATURES)
+
+Polish the Travel Mode fullscreen overlay composition. Do NOT add new features. Do NOT change navigation. This is strictly layout/framing so the globe looks intentionally composed and balanced.
+
+1) Center the globe (fix the right-heavy framing)
+
+Right now the globe is pushed too far to the right and feels accidentally cropped. Make the globe the visual center of the screen.
+
+Implement:
+	•	Create a container inside the overlay called TravelStage that fills the viewport:
+	•	position: fixed; inset: 0;
+	•	display: flex; align-items: center; justify-content: center;
+	•	Put the globe inside a wrapper GlobeStage that is centered:
+	•	position: relative;
+	•	width: min(980px, 86vw);
+	•	height: min(680px, 74vh);
+	•	margin: 0 auto;
+	•	The globe itself must be visually centered in the wrapper (not pinned to the right).
+	•	If the globe library draws off-center, adjust with transform: translateX(...) translateY(...) until it is centered.
+	•	Prefer centering with CSS first rather than changing globe math.
+
+Goal:
+	•	At least ~80–95% of the sphere should be visible (no harsh right-edge chop).
+	•	The crop should look intentional (soft edge), not like it hit the viewport boundary.
+
+2) Fix label distribution (remove “dead space” feel)
+
+Right now labels are scattered and leave the left side feeling empty. Make label placement feel balanced around the globe.
+	•	Ensure labels are anchored relative to the GlobeStage wrapper, not the whole viewport.
+	•	Apply a constraint so labels remain inside the GlobeStage bounds:
+	•	clamp label positions so they don’t drift into far-left empty space
+	•	keep labels within a safe padding region (e.g., 24px from wrapper edges)
+	•	If a label would collide with another label:
+	•	apply a small vertical offset stack (ex: +10px, +20px) OR slightly reduce scale
+	•	Keep the active city label highlighted, but don’t let it jump far away.
+
+3) Tighten the overall composition
+	•	Slightly raise the globe (subtle) so it feels anchored under the HUD:
+	•	ex: translateY(-10px) on desktop only
+	•	Keep the bottom progress pill centered and not overlapping labels.
+	•	Keep the HUD as-is, but ensure it doesn’t overlap labels:
+	•	add top safe padding so labels never appear under the HUD bar.
+
+4) Responsive requirements
+
+Test and adjust for:
+	•	Desktop 1440x900
+	•	Laptop 1024x768
+	•	Mobile 375x812
+
+On mobile:
+	•	Globe should still be centered
+	•	GlobeStage width ~94vw, height ~70vh
+	•	Labels scale down slightly (ex: 0.9)
+	•	Ensure no label gets cut off-screen
+
+5) Acceptance checklist
+
+After changes:
+	•	The globe is visually centered (no right-hugging)
+	•	Crop looks intentional (no harsh edge cutoff)
+	•	Labels feel evenly distributed around the globe
+	•	Left side no longer feels like dead space
+	•	No console/TypeScript errors
+	•	No new UI features added
+
+If any detail is ambiguous, pick sensible defaults and proceed. Focus on a visually balanced centered composition.

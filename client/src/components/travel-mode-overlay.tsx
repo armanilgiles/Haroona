@@ -164,14 +164,14 @@ export function TravelModeOverlay() {
             className="absolute inset-0 bg-black/50 backdrop-blur-lg"
             onClick={closeTravelMode}
             data-testid="backdrop-travel-mode"
-          />
-
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
-            }}
-          />
+          >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
+              }}
+            />
+          </div>
 
           <div className="relative z-10 flex flex-col w-full h-full pointer-events-none">
             <motion.div
@@ -231,7 +231,7 @@ export function TravelModeOverlay() {
             </motion.div>
 
             <motion.div
-              className="pointer-events-auto flex-1 flex items-center justify-center min-h-0 px-4"
+              className="pointer-events-auto flex-1 flex items-center justify-center min-h-0"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
@@ -239,41 +239,47 @@ export function TravelModeOverlay() {
               data-testid="container-travel-stage"
             >
               <div
-                className="relative flex items-center justify-center"
+                className="relative"
                 style={{
-                  width: "min(1100px, 92vw)",
-                  height: "min(680px, 72vh)",
+                  width: "min(980px, 86vw)",
+                  height: "min(680px, 74vh)",
+                  transform: "translateY(-8px)",
                 }}
+                data-testid="globe-stage"
               >
-              <div
-                className="relative w-full mx-auto"
-                style={{
-                  maxWidth: "min(640px, 90%)",
-                  filter: "drop-shadow(0 0 100px rgba(240,196,168,0.15))",
-                }}
-              >
-                <TravelGlobe />
+                <div
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{
+                    filter: "drop-shadow(0 0 100px rgba(240,196,168,0.15))",
+                  }}
+                >
+                  <div style={{ width: "min(580px, 70%)", aspectRatio: "1" }}>
+                    <TravelGlobe />
+                  </div>
+                </div>
 
                 {MARKER_LOCATIONS.map((marker) => {
                   const isActive = selectedCity === marker.name;
-                  const positions: Record<string, string> = {
-                    "Paris": "top-[20%] right-[8%]",
-                    "Tokyo": "top-[30%] left-[4%]",
-                    "London": "top-[12%] right-[22%]",
-                    "New York": "bottom-[24%] left-[10%]",
-                    "Italy": "top-[40%] right-[6%]",
-                    "Copenhagen": "top-[8%] right-[14%]",
-                    "Marrakech": "bottom-[34%] right-[8%]",
+                  const labelStyle: Record<string, { top?: string; bottom?: string; left?: string; right?: string }> = {
+                    "Paris":      { top: "18%", right: "18%" },
+                    "London":     { top: "14%", right: "30%" },
+                    "Copenhagen": { top: "10%", left: "38%" },
+                    "Tokyo":      { top: "32%", left: "12%" },
+                    "New York":   { bottom: "28%", left: "14%" },
+                    "Marrakech":  { bottom: "32%", left: "30%" },
+                    "Italy":      { top: "38%", right: "14%" },
                   };
-                  if (!positions[marker.name]) return null;
+                  const pos = labelStyle[marker.name];
+                  if (!pos) return null;
                   return (
                     <motion.button
                       key={marker.name}
-                      className={`absolute ${positions[marker.name]} rounded-full px-2.5 py-1 text-[11px] md:text-xs md:px-3 md:py-1.5 font-medium cursor-pointer transition-colors ${
+                      className={`absolute rounded-full px-2.5 py-1 text-[11px] md:text-xs md:px-3 md:py-1.5 font-medium cursor-pointer transition-colors ${
                         isActive
                           ? "bg-[#F0C4A8] text-foreground shadow-[0_0_20px_rgba(240,196,168,0.55)]"
                           : "bg-white/80 backdrop-blur-sm text-foreground/80 shadow-sm"
                       }`}
+                      style={pos}
                       onClick={() => handleCitySelect(marker.name)}
                       whileTap={{ scale: 0.96 }}
                       animate={isActive ? { scale: [1, 1.04, 1], transition: { duration: 0.4 } } : {}}
@@ -283,7 +289,6 @@ export function TravelModeOverlay() {
                     </motion.button>
                   );
                 })}
-              </div>
               </div>
             </motion.div>
 
