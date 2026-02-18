@@ -1,0 +1,102 @@
+Implement Remote Signal + Remote Lock (Soft Gate)
+
+Implement a “Globe as Remote” mechanic without hard-blocking browsing. Do not redesign the page. Add behavior + subtle UI reinforcement only.
+
+⸻
+
+1️⃣ Add a Persistent Remote Signal (very important)
+
+Above the product grid (directly above “Curated Picks”), add a sticky, calm line:
+
+Showing: {selectedCity} • Tap the globe to travel
+
+Behavior:
+	•	Updates instantly when selectedCity changes.
+	•	Uses the same single source of truth as hero and curated picks.
+	•	Should be subtle but always visible while scrolling (sticky at top of feed section, not whole page).
+	•	If no city selected yet:
+	•	Show: “Pick a city on the globe to begin”
+
+Style:
+	•	Small pill or slim horizontal bar.
+	•	Premium, minimal.
+	•	Not loud.
+
+This must make it impossible to forget what city is controlling the feed.
+
+⸻
+
+2️⃣ Implement “Remote Lock” (Soft Gate, Session-Based)
+
+Add a boolean state:
+isRemoteLockEnabled
+
+Default behavior:
+	•	Enabled for new sessions.
+	•	After first city interaction, remains enabled for that session.
+	•	Do NOT permanently block browsing.
+
+Behavior when Remote Lock is enabled:
+	•	Mood filters (Parisian Chic, etc.) still work — but:
+	•	They only filter within the selected city.
+	•	Category filters still work — but:
+	•	They filter within the selected city.
+	•	Search results are scoped to selected city.
+
+If no city is selected and Remote Lock is ON:
+	•	The product grid shows a centered empty state:
+Title: “Pick a city to begin”
+Subtitle: “The globe controls what you see.”
+CTA button: “Select Destination”
+	•	Clicking the CTA should scroll to or subtly highlight the globe.
+
+⸻
+
+3️⃣ Add a Small “Remote Lock” Toggle (Optional but powerful)
+
+Place a small toggle near the “Showing: {city}” line:
+
+Label:
+“Globe Controls Feed”
+
+When ON:
+	•	Feed always depends on selectedCity.
+When OFF:
+	•	Feed behaves normally (moods/categories global, no city scoping).
+
+Default:
+ON.
+
+This prevents user frustration while preserving identity.
+
+⸻
+
+4️⃣ Keep It Subtle (No Big Visual Changes)
+
+Do NOT:
+	•	Add popups.
+	•	Add banners.
+	•	Add heavy animations.
+	•	Redesign the layout.
+
+This is behavioral reinforcement only.
+
+⸻
+
+5️⃣ Acceptance Criteria
+
+After implementation:
+	•	Changing city updates:
+	•	Hero
+	•	Curated picks
+	•	Showing indicator
+	•	Globe labels
+	•	If no city selected and lock ON:
+	•	Feed shows empty state.
+	•	Filters never override selected city when lock ON.
+	•	Rapid city switching never causes inconsistency.
+	•	No console errors.
+
+If any detail is ambiguous, choose sensible defaults and proceed. Focus on reinforcing the globe as the remote.
+
+⸻

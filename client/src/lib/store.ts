@@ -10,6 +10,7 @@ interface AppState {
   favorites: Set<string>;
   visitedCities: string[];
   isTravelMode: boolean;
+  isRemoteLockEnabled: boolean;
   setSelectedCity: (city: string) => void;
   setSelectedCategory: (category: string) => void;
   setSelectedStyle: (style: string) => void;
@@ -19,6 +20,7 @@ interface AppState {
   clearVisitedCities: () => void;
   toggleTravelMode: () => void;
   setTravelMode: (value: boolean) => void;
+  toggleRemoteLock: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -32,6 +34,7 @@ export const useAppStore = create<AppState>()(
       favorites: new Set<string>(),
       visitedCities: [],
       isTravelMode: false,
+      isRemoteLockEnabled: true,
       setSelectedCity: (city) =>
         set((state) => {
           const visited = state.visitedCities.includes(city)
@@ -56,6 +59,7 @@ export const useAppStore = create<AppState>()(
       clearVisitedCities: () => set({ visitedCities: [], selectedCity: "Paris" }),
       toggleTravelMode: () => set((state) => ({ isTravelMode: !state.isTravelMode })),
       setTravelMode: (value) => set({ isTravelMode: value }),
+      toggleRemoteLock: () => set((state) => ({ isRemoteLockEnabled: !state.isRemoteLockEnabled })),
     }),
     {
       name: "aruona-store",
@@ -64,6 +68,7 @@ export const useAppStore = create<AppState>()(
         selectedCategory: state.selectedCategory,
         selectedVibe: state.selectedVibe,
         visitedCities: state.visitedCities,
+        isRemoteLockEnabled: state.isRemoteLockEnabled,
       }),
     }
   )

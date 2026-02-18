@@ -33,7 +33,7 @@ A globe-first, luxury fashion discovery web application where users explore cura
   - `floating-action-bar.tsx` - Bottom action bar (Refine/Explore Map/Adjust)
   - `newsletter.tsx` - Newsletter subscription form
   - `trending-cities.tsx` - Destinations list (clickable, drives selectedCity)
-- `client/src/lib/store.ts` - Zustand global state (selectedCity, selectedVibe, visitedCities)
+- `client/src/lib/store.ts` - Zustand global state (selectedCity, selectedVibe, visitedCities, isRemoteLockEnabled)
 - `client/src/lib/mock-data.ts` - Fallback data and constants (VIBES, PRODUCTS with vibe field)
 - `server/routes.ts` - API endpoints (/api/products, /api/cities, /api/newsletter)
 - `server/storage.ts` - Database storage with seed data (12 products with vibe)
@@ -46,10 +46,12 @@ A globe-first, luxury fashion discovery web application where users explore cura
 - Dark mode support via CSS variables
 
 ## Key Behaviors
-- selectedCity defaults to "Paris" and always filters curated picks
+- selectedCity defaults to "Paris"; when Remote Lock is ON, it filters curated picks by city
 - Clicking city cards, globe markers, or destination rows changes selectedCity
 - City changes trigger: hero banner update, curated picks filter, toast notification, Style Passport update
-- Vibes are primary discovery filter; categories are secondary
+- **Remote Signal**: sticky pill above product grid shows "Showing: {city}" + "Globe Controls Feed" toggle
+- **Remote Lock (isRemoteLockEnabled)**: when ON (default), feed is scoped to selectedCity; when OFF, filters are global
+- Vibes are primary discovery filter; categories are secondary (both scoped to city when lock ON)
 - Style Passport tracks visitedCities with "Clear" reset option
 - **Travel Mode**: "Explore Map" button opens full-screen overlay with expanded globe
   - Full-viewport overlay (fixed inset-0), darkened backdrop with blur

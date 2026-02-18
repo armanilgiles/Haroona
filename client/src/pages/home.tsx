@@ -18,7 +18,7 @@ import type { Product } from "@shared/schema";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Home() {
-  const { selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm } = useAppStore();
+  const { selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm, isRemoteLockEnabled } = useAppStore();
 
   const { data: apiProducts } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -28,7 +28,9 @@ export default function Home() {
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      if (p.cityName.toLowerCase() !== selectedCity.toLowerCase()) return false;
+      if (isRemoteLockEnabled) {
+        if (p.cityName.toLowerCase() !== selectedCity.toLowerCase()) return false;
+      }
       if (selectedCategory !== "All" && p.category !== selectedCategory) return false;
       if (selectedStyle !== "All" && p.style !== selectedStyle) return false;
       if (selectedVibe !== "All" && p.vibe !== selectedVibe) return false;
@@ -44,7 +46,7 @@ export default function Home() {
       }
       return true;
     });
-  }, [products, selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm]);
+  }, [products, selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm, isRemoteLockEnabled]);
 
   const sidebarStyle = {
     "--sidebar-width": "14rem",

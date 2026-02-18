@@ -1,6 +1,7 @@
-import { Heart, X } from "lucide-react";
+import { Heart, X, Globe, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/lib/store";
 import { PRODUCTS } from "@/lib/mock-data";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,21 +10,92 @@ interface CuratedPicksProps {
   products: typeof PRODUCTS;
 }
 
+function RemoteSignal() {
+  const { selectedCity, isRemoteLockEnabled, toggleRemoteLock, setTravelMode } = useAppStore();
+
+  return (
+    <div
+      className="sticky top-0 z-30 flex items-center justify-between gap-2 px-3 py-1.5 rounded-full bg-muted/60 backdrop-blur-sm border border-border/40"
+      data-testid="bar-remote-signal"
+    >
+      <div className="flex items-center gap-2 min-w-0">
+        <MapPin className="w-3 h-3 text-[#F0C4A8] flex-shrink-0" />
+        <span className="text-xs text-muted-foreground truncate" data-testid="text-remote-signal">
+          Showing: <span className="font-medium text-foreground">{selectedCity}</span>
+          <span className="hidden sm:inline"> &middot; Tap the globe to travel</span>
+        </span>
+      </div>
+      <div className="flex items-center gap-1.5 flex-shrink-0">
+        <button
+          onClick={toggleRemoteLock}
+          className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium transition-colors cursor-pointer ${
+            isRemoteLockEnabled
+              ? "bg-[#F0C4A8]/20 text-foreground"
+              : "bg-transparent text-muted-foreground"
+          }`}
+          data-testid="button-toggle-remote-lock"
+        >
+          <Globe className="w-3 h-3" />
+          <span className="hidden sm:inline">Globe Controls Feed</span>
+          <span
+            className={`w-6 h-3.5 rounded-full relative transition-colors ${
+              isRemoteLockEnabled ? "bg-[#F0C4A8]" : "bg-muted-foreground/30"
+            }`}
+          >
+            <span
+              className={`absolute top-0.5 w-2.5 h-2.5 rounded-full bg-white shadow-sm transition-transform ${
+                isRemoteLockEnabled ? "translate-x-3" : "translate-x-0.5"
+              }`}
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EmptyGateState() {
+  const { setTravelMode } = useAppStore();
+
+  return (
+    <div className="flex flex-col items-center justify-center py-16 text-center space-y-3" data-testid="container-empty-gate">
+      <Globe className="w-10 h-10 text-muted-foreground/30" />
+      <div className="space-y-1">
+        <p className="text-sm font-medium text-foreground" data-testid="text-gate-title">Pick a city to begin</p>
+        <p className="text-xs text-muted-foreground" data-testid="text-gate-subtitle">The globe controls what you see.</p>
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        className="rounded-full gap-1.5 mt-1"
+        onClick={() => setTravelMode(true)}
+        data-testid="button-gate-select-destination"
+      >
+        <MapPin className="w-3.5 h-3.5" />
+        Select Destination
+      </Button>
+    </div>
+  );
+}
+
 export function CuratedPicks({ products }: CuratedPicksProps) {
-  const { selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedStyle, setSelectedStyle, selectedVibe, setSelectedVibe } = useAppStore();
+  const { selectedCity, selectedCategory, setSelectedCategory, selectedStyle, setSelectedStyle, selectedVibe, setSelectedVibe, isRemoteLockEnabled } = useAppStore();
   const displayProducts = products.slice(0, 6);
   const hasFilters = selectedCategory !== "All" || selectedStyle !== "All" || selectedVibe !== "All";
 
   return (
     <div className="space-y-3">
+      <RemoteSignal />
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2">
           <h2 className="font-serif text-lg font-semibold" data-testid="text-curated-picks">
             Curated Picks
           </h2>
-          <Badge variant="outline" className="text-[10px] rounded-full" data-testid="badge-city-filter">
-            {selectedCity}
-          </Badge>
+          {isRemoteLockEnabled && (
+            <Badge variant="outline" className="text-[10px] rounded-full" data-testid="badge-city-filter">
+              {selectedCity}
+            </Badge>
+          )}
         </div>
         {hasFilters && (
           <div className="flex items-center gap-1.5 flex-wrap">
