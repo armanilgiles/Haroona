@@ -1,0 +1,29 @@
+import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+
+export function NavBar() {
+  return (
+    <nav className="flex items-center justify-between gap-4 px-4 py-3 md:px-6 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
+      <SidebarTrigger data-testid="button-sidebar-toggle" />
+
+      <h1
+        className="font-serif text-xl md:text-2xl tracking-[0.3em] font-medium select-none"
+        data-testid="text-logo"
+      >
+        ARUONA
+      </h1>
+
+      <div className="flex items-center gap-2">
+        <Button size="icon" variant="ghost" data-testid="button-search-nav">
+          <Search className="w-5 h-5" />
+        </Button>
+        <Avatar className="w-8 h-8 border border-border/50">
+          <AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="User" />
+          <AvatarFallback>U</AvatarFallback>
+        </Avatar>
+      </div>
+    </nav>
+  );
+}
