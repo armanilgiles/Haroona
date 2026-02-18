@@ -153,10 +153,6 @@ export function TravelModeOverlay() {
     }, 700);
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) closeTravelMode();
-  };
-
   return (
     <AnimatePresence>
       {isTravelMode && (
@@ -166,13 +162,16 @@ export function TravelModeOverlay() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          onClick={handleBackdropClick}
           role="dialog"
           aria-modal="true"
           aria-label="Travel Mode"
           data-testid="overlay-travel-mode"
         >
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={closeTravelMode}
+            data-testid="backdrop-travel-mode"
+          />
 
           <motion.div
             className="relative z-10 w-[90vw] max-w-5xl h-[80vh] max-h-[700px] flex flex-col rounded-2xl border border-white/15 bg-card/80 backdrop-blur-xl shadow-2xl overflow-hidden"
@@ -238,9 +237,8 @@ export function TravelModeOverlay() {
                             : "bg-white/85 backdrop-blur-sm text-foreground/80"
                         }`}
                         onClick={() => handleCitySelect(marker.name)}
-                        whileHover={{ scale: 1.08 }}
                         whileTap={{ scale: 0.96 }}
-                        animate={isActive ? { scale: [1, 1.12, 1], transition: { duration: 0.4 } } : {}}
+                        animate={isActive ? { scale: [1, 1.05, 1], transition: { duration: 0.4 } } : {}}
                         data-testid={`button-travel-marker-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
                       >
                         {marker.name}
