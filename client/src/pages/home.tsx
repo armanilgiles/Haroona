@@ -61,58 +61,79 @@ export default function Home() {
           <SearchBar />
 
           <div className="flex-1 px-4 md:px-6 pb-20 space-y-6">
-            <div className="flex flex-col lg:flex-row gap-6">
-              <main className="flex-1 min-w-0 space-y-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
+            <div className="relative min-h-[420px] lg:min-h-[480px]">
+              <div
+                className="
+                  relative z-0
+                  lg:absolute lg:top-0 lg:right-0 lg:z-10
+                  mb-6 lg:mb-0
+                "
+                style={{
+                  /* on lg+, these apply via the absolute positioning */
+                }}
+              >
+                <div
+                  className="lg:w-[min(520px,40vw)] lg:translate-x-[20px]"
                 >
-                  <MainContent />
-                </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.15 }}
+                    className="globe-breakout-mask"
+                    style={{
+                      filter: "drop-shadow(0 0 60px rgba(240,196,168,0.1))",
+                    }}
+                  >
+                    <GlobeSection />
+                  </motion.div>
+                </div>
+              </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                >
-                  <CuratedPicks products={filteredProducts as typeof PRODUCTS} />
-                </motion.div>
-              </main>
+              <div className="flex flex-col gap-6">
+                <main className="space-y-6 lg:pr-[min(340px,30vw)]">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                  >
+                    <MainContent />
+                  </motion.div>
 
-              <aside className="w-full lg:w-72 flex-shrink-0 space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <GlobeSection />
-                </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                  >
+                    <CuratedPicks products={filteredProducts as typeof PRODUCTS} />
+                  </motion.div>
+                </main>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.3 }}
-                >
-                  <Newsletter />
-                </motion.div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                  >
+                    <Newsletter />
+                  </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.35 }}
-                >
-                  <StyleInspo />
-                </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.35 }}
+                  >
+                    <StyleInspo />
+                  </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.4 }}
-                >
-                  <TrendingCities />
-                </motion.div>
-              </aside>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.4 }}
+                  >
+                    <TrendingCities />
+                  </motion.div>
+                </div>
+              </div>
             </div>
           </div>
 

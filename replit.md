@@ -5,15 +5,8 @@ A globe-first, luxury fashion discovery web application where users explore cura
 
 ## Recent Changes
 - 2026-02-18: Initial MVP build with full landing page dashboard
-- 2026-02-18: Transformed from shopping app to travel-through-style:
-  - Globe-first behavior: selectedCity (default Paris) drives hero, curated picks, and Style Passport
-  - Added Style Passport panel tracking visited cities
-  - Vibes row (Parisian Chic, Minimal Summer, Quiet Luxury, Tokyo Streetwear) as primary filter
-  - Aruona-specific language: "Explore" not "Search", "Refine" not "Filter", "Current Moods" not "Trending"
-  - AnimatePresence transitions when changing city/filters
-  - Toast notifications "Now exploring: {city}" on city change
-  - Products now include `vibe` field in schema and seed data
-  - 12 products seeded across 7 cities
+- 2026-02-18: Transformed from shopping app to travel-through-style
+- 2026-02-18: Globe breakout layout — globe now breaks out of right column as absolutely-positioned hero element on desktop, extending leftward with fade mask. Single GlobeSection instance with responsive CSS positioning (absolute on lg+, normal flow on mobile). Main content gets right padding to avoid overlap. GlobeCanvas has retry-with-cleanup init logic.
 
 ## Tech Stack
 - **Frontend**: React + TypeScript + Vite + TailwindCSS + Framer Motion

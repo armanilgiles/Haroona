@@ -1,0 +1,67 @@
+EXPAND GLOBE PAST RIGHT COLUMN (BREAK OUT OF GRID)
+
+I want the globe on the main dashboard page to expand left past the right column boundary, roughly to the purple line in the screenshot. The globe currently feels trapped in a sidebar. Make it feel like a primary visual object on the page.
+
+1) Key requirement
+	•	Do NOT just increase the right column width.
+	•	Instead, break the globe out of the column/grid so it can visually overlap into the main content area.
+	•	Globe must remain interactive (click labels/drag).
+
+2) Layout strategy (how to implement)
+	•	Keep the page’s overall 3-column layout conceptually (sidebar, main content, right rail), BUT:
+	•	Move the globe into a positioned overlay layer anchored to the right side of the page content area.
+
+Implementation guidance:
+	•	Wrap the main page content in a relative container (ex: DashboardShell / PageWrap).
+	•	Render the globe inside an absolute container within that wrapper.
+	•	The globe container should sit on the right side and extend left by a controlled amount.
+
+Example sizing targets (desktop):
+	•	Globe overlay width: min(560px, 42vw) (or similar)
+	•	Allow it to extend left so its left edge lands around the mid-right of the page (purple line reference)
+	•	Height: enough to feel hero-like (ex: 360–440px)
+
+3) Prevent overlap chaos (important)
+
+Because the globe will overlap into the main content area:
+	•	Add padding/right gutter to the main content so text/cards do not sit directly behind the globe.
+	•	Use a responsive rule like:
+	•	main content gets extra right padding only on large screens (e.g. lg:pr-[360px] or calculated based on globe width)
+	•	The overlap should feel intentional (like a hero graphic), not like content is being covered.
+
+4) Visual blending (make it premium)
+
+To make the overlap look intentional:
+	•	Add a subtle fade/mask on the left side of the globe container so it blends into the page (optional but preferred).
+	•	Use a CSS mask-image gradient OR a pseudo-element overlay gradient.
+	•	Add a soft shadow or glow behind the globe so it separates from the background.
+
+5) Responsiveness rules
+	•	Desktop (≥ 1024px):
+	•	globe overlay breaks out and expands left (the goal)
+	•	Tablet (< 1024px):
+	•	globe should return to normal flow (no overlap) OR reduce overlap significantly
+	•	Mobile:
+	•	globe must be in normal document flow (no absolute overlap), full width section
+
+6) Keep existing globe features
+
+Do not break:
+	•	selectedCity updating
+	•	clicking city labels
+	•	filtering curated picks
+	•	Travel Mode fullscreen overlay
+
+This change is ONLY for the normal browse mode globe placement.
+
+7) Acceptance checklist
+
+After changes:
+	•	Globe visually extends left beyond the right rail to match the purple guideline
+	•	Main content remains readable and not covered
+	•	Globe remains interactive
+	•	No layout jumpiness / no scrollbars introduced
+	•	Works across desktop/tablet/mobile
+	•	No console/TypeScript errors
+
+If any detail is ambiguous, pick sensible defaults and proceed. Focus on an intentional overlap composition.

@@ -20,7 +20,7 @@ const MARKER_LOCATIONS = [
 
 function GlobeFallback() {
   return (
-    <div className="aspect-square max-w-[400px] mx-auto rounded-xl bg-gradient-to-br from-[#F5C5A3]/20 via-[#E8A87C]/10 to-[#8AABCF]/20 flex flex-col items-center justify-center gap-3">
+    <div className="aspect-square w-full mx-auto rounded-xl bg-gradient-to-br from-[#F5C5A3]/20 via-[#E8A87C]/10 to-[#8AABCF]/20 flex flex-col items-center justify-center gap-3">
       <Globe className="w-16 h-16 text-muted-foreground/40" />
       <p className="text-sm text-muted-foreground">Interactive globe</p>
     </div>
@@ -39,46 +39,63 @@ function GlobeCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const width = canvas.offsetWidth;
-    if (!width || width <= 0) {
-      setHasError(true);
-      return;
+    let attempts = 0;
+    const maxAttempts = 10;
+    let cancelled = false;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+
+    function tryInit() {
+      if (cancelled || !canvas) return;
+      const width = canvas.offsetWidth;
+      if (!width || width <= 0) {
+        attempts++;
+        if (attempts < maxAttempts) {
+          timerId = setTimeout(tryInit, 100);
+        } else {
+          setHasError(true);
+        }
+        return;
+      }
+
+      try {
+        globeRef.current = createGlobe(canvas, {
+          devicePixelRatio: Math.min(window.devicePixelRatio, 2),
+          width: width * 2,
+          height: width * 2,
+          phi: 0.3,
+          theta: 0.15,
+          dark: 0,
+          diffuse: 1.8,
+          mapSamples: 16000,
+          mapBrightness: 4.5,
+          baseColor: [1, 0.92, 0.88],
+          markerColor: [0.95, 0.75, 0.6],
+          glowColor: [1, 0.92, 0.85],
+          markers: MARKER_LOCATIONS.map((m) => ({
+            location: m.location,
+            size: m.size,
+          })),
+          onRender: (state) => {
+            if (!pointerInteracting.current) {
+              phiRef.current += 0.003;
+            }
+            state.phi = phiRef.current + pointerInteractionMovement.current;
+            if (canvas.offsetWidth) {
+              state.width = canvas.offsetWidth * 2;
+              state.height = canvas.offsetWidth * 2;
+            }
+          },
+        });
+      } catch {
+        setHasError(true);
+      }
     }
 
-    try {
-      globeRef.current = createGlobe(canvas, {
-        devicePixelRatio: Math.min(window.devicePixelRatio, 2),
-        width: width * 2,
-        height: width * 2,
-        phi: 0.3,
-        theta: 0.15,
-        dark: 0,
-        diffuse: 1.8,
-        mapSamples: 16000,
-        mapBrightness: 4.5,
-        baseColor: [1, 0.92, 0.88],
-        markerColor: [0.95, 0.75, 0.6],
-        glowColor: [1, 0.92, 0.85],
-        markers: MARKER_LOCATIONS.map((m) => ({
-          location: m.location,
-          size: m.size,
-        })),
-        onRender: (state) => {
-          if (!pointerInteracting.current) {
-            phiRef.current += 0.003;
-          }
-          state.phi = phiRef.current + pointerInteractionMovement.current;
-          if (canvas.offsetWidth) {
-            state.width = canvas.offsetWidth * 2;
-            state.height = canvas.offsetWidth * 2;
-          }
-        },
-      });
-    } catch {
-      setHasError(true);
-    }
+    tryInit();
 
     return () => {
+      cancelled = true;
+      if (timerId !== null) clearTimeout(timerId);
       if (globeRef.current) {
         globeRef.current.destroy();
         globeRef.current = null;
@@ -94,7 +111,7 @@ function GlobeCanvas() {
     <canvas
       ref={canvasRef}
       className="w-full aspect-square cursor-grab active:cursor-grabbing"
-      style={{ maxWidth: "400px", margin: "0 auto", display: "block" }}
+      style={{ maxWidth: "100%", margin: "0 auto", display: "block" }}
       onPointerDown={(e) => {
         pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
       }}
