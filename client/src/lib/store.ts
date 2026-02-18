@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AppState {
   selectedCity: string;
@@ -20,37 +21,50 @@ interface AppState {
   setTravelMode: (value: boolean) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  selectedCity: "Paris",
-  selectedCategory: "All",
-  selectedStyle: "All",
-  selectedVibe: "All",
-  searchTerm: "",
-  favorites: new Set<string>(),
-  visitedCities: ["Paris"],
-  isTravelMode: false,
-  setSelectedCity: (city) =>
-    set((state) => {
-      const visited = state.visitedCities.includes(city)
-        ? state.visitedCities
-        : [...state.visitedCities, city];
-      return { selectedCity: city, visitedCities: visited };
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      selectedCity: "Paris",
+      selectedCategory: "All",
+      selectedStyle: "All",
+      selectedVibe: "All",
+      searchTerm: "",
+      favorites: new Set<string>(),
+      visitedCities: [],
+      isTravelMode: false,
+      setSelectedCity: (city) =>
+        set((state) => {
+          const visited = state.visitedCities.includes(city)
+            ? state.visitedCities
+            : [...state.visitedCities, city];
+          return { selectedCity: city, visitedCities: visited };
+        }),
+      setSelectedCategory: (category) => set({ selectedCategory: category }),
+      setSelectedStyle: (style) => set({ selectedStyle: style }),
+      setSelectedVibe: (vibe) => set({ selectedVibe: vibe }),
+      setSearchTerm: (term) => set({ searchTerm: term }),
+      toggleFavorite: (productId) =>
+        set((state) => {
+          const newFavorites = new Set(state.favorites);
+          if (newFavorites.has(productId)) {
+            newFavorites.delete(productId);
+          } else {
+            newFavorites.add(productId);
+          }
+          return { favorites: newFavorites };
+        }),
+      clearVisitedCities: () => set({ visitedCities: [], selectedCity: "Paris" }),
+      toggleTravelMode: () => set((state) => ({ isTravelMode: !state.isTravelMode })),
+      setTravelMode: (value) => set({ isTravelMode: value }),
     }),
-  setSelectedCategory: (category) => set({ selectedCategory: category }),
-  setSelectedStyle: (style) => set({ selectedStyle: style }),
-  setSelectedVibe: (vibe) => set({ selectedVibe: vibe }),
-  setSearchTerm: (term) => set({ searchTerm: term }),
-  toggleFavorite: (productId) =>
-    set((state) => {
-      const newFavorites = new Set(state.favorites);
-      if (newFavorites.has(productId)) {
-        newFavorites.delete(productId);
-      } else {
-        newFavorites.add(productId);
-      }
-      return { favorites: newFavorites };
-    }),
-  clearVisitedCities: () => set({ visitedCities: [] }),
-  toggleTravelMode: () => set((state) => ({ isTravelMode: !state.isTravelMode })),
-  setTravelMode: (value) => set({ isTravelMode: value }),
-}));
+    {
+      name: "aruona-store",
+      partialize: (state) => ({
+        selectedCity: state.selectedCity,
+        selectedCategory: state.selectedCategory,
+        selectedVibe: state.selectedVibe,
+        visitedCities: state.visitedCities,
+      }),
+    }
+  )
+);

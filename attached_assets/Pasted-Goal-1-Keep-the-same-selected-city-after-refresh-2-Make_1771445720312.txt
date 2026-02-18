@@ -1,0 +1,48 @@
+Goal:
+	1.	Keep the same selected city after refresh
+	2.	Make Style Passport progress only when the user actually interacts (no “free” progress)
+
+Paste this into Replit:
+
+⸻
+
+Replit: Implement city persistence + strict Passport progress (no auto-credit). Do not change the UI design, only behavior.
+
+1) Persist the selected city across refresh
+	•	Persist selectedCity (and optionally selectedVibe + selectedCategory) so a browser refresh returns the user to the same city they were exploring.
+	•	Use a simple persistence mechanism appropriate for the current stack:
+	•	If using Zustand: add persistence middleware so selectedCity saves to browser storage and rehydrates on load.
+	•	Add a safety fallback:
+	•	If no stored value exists, default to “Paris” (or your preferred default).
+
+Acceptance test: Select “Tokyo,” refresh, it should still show Tokyo everywhere (hero, curated picks, globe, “Current Stop”).
+
+2) Make Passport progress only when the user does something
+Right now Passport starts with a city already visited. Change it so that visitedCities starts empty and only updates after a real user action.
+
+Implement:
+	•	Initialize visitedCities as an empty list.
+	•	Only add a city to visitedCities when the user explicitly triggers a city change by:
+	•	clicking a city label/marker on the globe, OR
+	•	clicking a city card (Paris/Tokyo/etc), OR
+	•	selecting a city from Destinations (if applicable)
+	•	Do NOT add cities on initial render, hydration, or default state.
+	•	Ensure it never duplicates cities (idempotent add).
+	•	Keep the “Clear” action working (clears visitedCities and optionally resets selectedCity to default).
+
+Important nuance:
+	•	If the app loads with a persisted city, that should NOT automatically count as “visited” unless the user interacts. (This is the pure version.)
+	•	If you prefer a “home city” concept, label it separately as “Home: Paris” but do not count it in “Stops Collected” until the first interaction.
+
+Acceptance test: Load app → Stops Collected should be 0. Click Tokyo → Stops Collected becomes 1 and Tokyo appears.
+
+3) Keep everything consistent during rapid taps
+	•	Ensure all sections always render off the same single source of truth (selectedCity).
+	•	When city changes, hero + curated picks should transition smoothly as they do now.
+	•	Optional polish: if rapid tapping causes stacked toasts, throttle or replace with a single “Now exploring X” that updates instead of stacking.
+
+Acceptance test: Tap Paris → Tokyo quickly multiple times; hero, curated picks, globe label, and “Current Stop” never disagree.
+
+4) Do not change UI styling
+	•	No redesign, no new panels. Behavior only.
+	•	No TypeScript errors. No console errors.
