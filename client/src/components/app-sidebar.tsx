@@ -1,6 +1,5 @@
 import { Grid3X3, Flame, Sun, Diamond, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Sidebar,
   SidebarContent,
@@ -34,8 +33,8 @@ export function AppSidebar({ products }: AppSidebarProps) {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="font-serif text-base font-semibold" data-testid="text-trending-title">
-            Trending
+          <SidebarGroupLabel className="font-serif text-base font-semibold" data-testid="text-current-moods-title">
+            Current Moods
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -60,8 +59,8 @@ export function AppSidebar({ products }: AppSidebarProps) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="font-serif text-sm font-semibold" data-testid="text-trending-for-you">
-            Trending For You
+          <SidebarGroupLabel className="font-serif text-sm font-semibold" data-testid="text-picked-for-you">
+            Picked For You
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <div className="space-y-3 px-2">

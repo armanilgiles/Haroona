@@ -14,10 +14,10 @@ import { useAppStore } from "@/lib/store";
 import { PRODUCTS } from "@/lib/mock-data";
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@shared/schema";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Home() {
-  const { selectedCategory, selectedStyle, selectedCity, searchTerm } = useAppStore();
+  const { selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm } = useAppStore();
 
   const { data: apiProducts } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -27,21 +27,23 @@ export default function Home() {
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
+      if (p.cityName.toLowerCase() !== selectedCity.toLowerCase()) return false;
       if (selectedCategory !== "All" && p.category !== selectedCategory) return false;
       if (selectedStyle !== "All" && p.style !== selectedStyle) return false;
-      if (selectedCity && p.cityName.toLowerCase() !== selectedCity.toLowerCase()) return false;
+      if (selectedVibe !== "All" && p.vibe !== selectedVibe) return false;
       if (searchTerm) {
         const term = searchTerm.toLowerCase();
         return (
           p.name.toLowerCase().includes(term) ||
           p.brand.toLowerCase().includes(term) ||
           p.style.toLowerCase().includes(term) ||
-          p.cityName.toLowerCase().includes(term)
+          p.cityName.toLowerCase().includes(term) ||
+          p.vibe.toLowerCase().includes(term)
         );
       }
       return true;
     });
-  }, [products, selectedCategory, selectedStyle, selectedCity, searchTerm]);
+  }, [products, selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm]);
 
   const sidebarStyle = {
     "--sidebar-width": "14rem",

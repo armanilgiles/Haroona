@@ -11,7 +11,7 @@ export function FloatingActionBar() {
           data-testid="button-filter"
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
-          Filter
+          Refine
         </Button>
 
         <Button
@@ -37,7 +37,7 @@ export function FloatingActionBar() {
           data-testid="button-sort"
         >
           <ArrowUpDown className="w-3.5 h-3.5" />
-          Sort
+          Adjust
         </Button>
       </div>
     </div>

@@ -1,36 +1,32 @@
 import { Heart, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/lib/store";
 import { PRODUCTS } from "@/lib/mock-data";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface CuratedPicksProps {
   products: typeof PRODUCTS;
 }
 
 export function CuratedPicks({ products }: CuratedPicksProps) {
-  const { selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedStyle, setSelectedStyle } = useAppStore();
+  const { selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedStyle, setSelectedStyle, selectedVibe, setSelectedVibe } = useAppStore();
   const displayProducts = products.slice(0, 6);
-  const hasFilters = selectedCity || selectedCategory !== "All" || selectedStyle !== "All";
+  const hasFilters = selectedCategory !== "All" || selectedStyle !== "All" || selectedVibe !== "All";
 
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <h2 className="font-serif text-lg font-semibold" data-testid="text-curated-picks">
-          Curated Picks
-        </h2>
+        <div className="flex items-center gap-2">
+          <h2 className="font-serif text-lg font-semibold" data-testid="text-curated-picks">
+            Curated Picks
+          </h2>
+          <Badge variant="outline" className="text-[10px] rounded-full" data-testid="badge-city-filter">
+            {selectedCity}
+          </Badge>
+        </div>
         {hasFilters && (
           <div className="flex items-center gap-1.5 flex-wrap">
-            {selectedCity && (
-              <Badge variant="secondary" className="text-[10px] rounded-full gap-1">
-                {selectedCity}
-                <button onClick={() => setSelectedCity(null)} data-testid="button-clear-city">
-                  <X className="w-3 h-3" />
-                </button>
-              </Badge>
-            )}
             {selectedCategory !== "All" && (
               <Badge variant="secondary" className="text-[10px] rounded-full gap-1">
                 {selectedCategory}
@@ -47,20 +43,38 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
                 </button>
               </Badge>
             )}
+            {selectedVibe !== "All" && (
+              <Badge variant="secondary" className="text-[10px] rounded-full gap-1">
+                {selectedVibe}
+                <button onClick={() => setSelectedVibe("All")} data-testid="button-clear-vibe">
+                  <X className="w-3 h-3" />
+                </button>
+              </Badge>
+            )}
           </div>
         )}
       </div>
-      {displayProducts.length === 0 ? (
-        <div className="text-center py-8 text-muted-foreground text-sm">
-          No products match your filters. Try adjusting your selection.
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {displayProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
-          ))}
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${selectedCity}-${selectedCategory}-${selectedVibe}`}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          {displayProducts.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground text-sm">
+              No discoveries match your journey. Try a different stop or vibe.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {displayProducts.map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -73,7 +87,7 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
     >
       <Card
         className="overflow-hidden group hover-elevate"
@@ -126,7 +140,9 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
             ${product.price.toLocaleString()}
           </p>
           <div className="flex items-center gap-1.5">
-            <Heart className="w-3 h-3 text-muted-foreground" />
+            <Badge variant="outline" className="text-[9px] rounded-full no-default-hover-elevate no-default-active-elevate">
+              {product.vibe}
+            </Badge>
             <p className="text-xs text-muted-foreground">{product.brand}</p>
           </div>
         </div>

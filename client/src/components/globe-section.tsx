@@ -2,15 +2,20 @@ import { useRef, useEffect, useState } from "react";
 import createGlobe from "cobe";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Globe } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Globe, MapPin, RotateCcw } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { CITIES } from "@/lib/mock-data";
+import { useToast } from "@/hooks/use-toast";
 
 const MARKER_LOCATIONS = [
   { location: [48.8566, 2.3522] as [number, number], size: 0.08, name: "Paris" },
   { location: [35.6762, 139.6503] as [number, number], size: 0.08, name: "Tokyo" },
   { location: [51.5074, -0.1278] as [number, number], size: 0.07, name: "London" },
   { location: [40.7128, -74.006] as [number, number], size: 0.08, name: "New York" },
+  { location: [41.9028, 12.4964] as [number, number], size: 0.06, name: "Italy" },
+  { location: [55.6761, 12.5683] as [number, number], size: 0.06, name: "Copenhagen" },
+  { location: [31.6295, -7.9811] as [number, number], size: 0.06, name: "Marrakech" },
 ];
 
 function GlobeFallback() {
@@ -110,26 +115,107 @@ function GlobeCanvas() {
   );
 }
 
+function StylePassport() {
+  const { selectedCity, visitedCities, clearVisitedCities } = useAppStore();
+  const maxVisible = 6;
+  const visible = visitedCities.slice(0, maxVisible);
+  const remaining = visitedCities.length - maxVisible;
+
+  return (
+    <Card className="p-4 bg-card/60 backdrop-blur-sm border-border/30" data-testid="card-style-passport">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <h3 className="font-serif text-sm font-semibold" data-testid="text-style-passport-title">
+          Style Passport
+        </h3>
+        {visitedCities.length > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-[10px] rounded-full"
+            onClick={clearVisitedCities}
+            data-testid="button-clear-passport"
+          >
+            <RotateCcw className="w-3 h-3 mr-1" />
+            Clear
+          </Button>
+        )}
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center gap-1.5">
+          <MapPin className="w-3.5 h-3.5 text-[#F0C4A8]" />
+          <span className="text-xs text-muted-foreground">Current Stop:</span>
+          <span className="text-xs font-medium" data-testid="text-current-stop">{selectedCity}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Globe className="w-3.5 h-3.5 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">Stops Collected:</span>
+          <span className="text-xs font-medium" data-testid="text-stops-count">{visitedCities.length}</span>
+        </div>
+        {visitedCities.length > 0 && (
+          <div className="flex items-center gap-1 flex-wrap" data-testid="passport-visited-cities">
+            {visible.map((city) => (
+              <Badge
+                key={city}
+                variant={city === selectedCity ? "default" : "secondary"}
+                className="text-[10px] rounded-full"
+              >
+                {city}
+              </Badge>
+            ))}
+            {remaining > 0 && (
+              <Badge variant="outline" className="text-[10px] rounded-full">
+                +{remaining}
+              </Badge>
+            )}
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
 export function GlobeSection() {
-  const { setSelectedCity } = useAppStore();
-  const globeCities = CITIES.filter((c) => ["tokyo", "newyork"].includes(c.id));
+  const { selectedCity, setSelectedCity } = useAppStore();
+  const { toast } = useToast();
+  const globeCities = CITIES.filter((c) => ["tokyo", "newyork", "paris", "london"].includes(c.id));
+
+  const handleCitySelect = (cityName: string) => {
+    if (cityName !== selectedCity) {
+      setSelectedCity(cityName);
+      toast({
+        title: `Now exploring: ${cityName}`,
+        description: `Discover curated fashion from ${cityName}`,
+      });
+    }
+  };
 
   return (
     <div className="space-y-4">
       <div className="relative">
         <GlobeCanvas />
-        <div className="absolute top-[25%] right-[15%] bg-white/80 backdrop-blur-sm rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm pointer-events-none">
-          Paris
-        </div>
-        <div className="absolute top-[30%] left-[10%] bg-white/80 backdrop-blur-sm rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm pointer-events-none">
-          Tokyo
-        </div>
-        <div className="absolute top-[20%] right-[30%] bg-white/80 backdrop-blur-sm rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm pointer-events-none">
-          London
-        </div>
-        <div className="absolute bottom-[30%] left-[20%] bg-white/80 backdrop-blur-sm rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm pointer-events-none">
-          New York
-        </div>
+        {MARKER_LOCATIONS.slice(0, 4).map((marker) => {
+          const isActive = selectedCity === marker.name;
+          const positions: Record<string, string> = {
+            "Paris": "top-[25%] right-[15%]",
+            "Tokyo": "top-[30%] left-[10%]",
+            "London": "top-[20%] right-[30%]",
+            "New York": "bottom-[30%] left-[20%]",
+          };
+          return (
+            <button
+              key={marker.name}
+              className={`absolute ${positions[marker.name]} rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm cursor-pointer transition-all ${
+                isActive
+                  ? "bg-[#F0C4A8] text-foreground scale-110"
+                  : "bg-white/80 backdrop-blur-sm text-foreground/80"
+              }`}
+              onClick={() => handleCitySelect(marker.name)}
+              data-testid={`button-globe-marker-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
+            >
+              {marker.name}
+            </button>
+          );
+        })}
       </div>
 
       <div>
@@ -137,22 +223,27 @@ export function GlobeSection() {
           Shop the Globe
         </h3>
         <div className="flex items-center gap-2">
-          {globeCities.map((city) => (
-            <Card
-              key={city.id}
-              className="flex-1 relative overflow-hidden rounded-lg cursor-pointer hover-elevate"
-              onClick={() => setSelectedCity(city.name)}
-              data-testid={`card-globe-city-${city.id}`}
-            >
-              <div className="h-16 relative">
-                <img src={city.image} alt={city.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <p className="absolute bottom-1.5 left-2 text-white text-[11px] font-medium">
-                  {city.name}
-                </p>
-              </div>
-            </Card>
-          ))}
+          {globeCities.map((city) => {
+            const isActive = selectedCity === city.name;
+            return (
+              <Card
+                key={city.id}
+                className={`flex-1 relative overflow-hidden rounded-lg cursor-pointer hover-elevate ${
+                  isActive ? "ring-2 ring-[#F0C4A8]" : ""
+                }`}
+                onClick={() => handleCitySelect(city.name)}
+                data-testid={`card-globe-city-${city.id}`}
+              >
+                <div className="h-16 relative">
+                  <img src={city.image} alt={city.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <p className="absolute bottom-1.5 left-2 text-white text-[11px] font-medium">
+                    {city.name}
+                  </p>
+                </div>
+              </Card>
+            );
+          })}
           <Button
             variant="outline"
             size="sm"
@@ -164,6 +255,8 @@ export function GlobeSection() {
           </Button>
         </div>
       </div>
+
+      <StylePassport />
     </div>
   );
 }
