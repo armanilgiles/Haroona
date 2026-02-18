@@ -136,20 +136,20 @@ function StylePassport() {
   useEffect(() => {
     if (isRouteUnlocked && !hasShownRouteUnlock) {
       markRouteUnlockShown();
-      toast({ title: "Route unlocked", description: "You've explored 3 cities" });
+      toast({ title: "Style route unlocked", description: "You've collected 3 style stops" });
     }
   }, [isRouteUnlocked, hasShownRouteUnlock]);
 
   useEffect(() => {
     if (isBadgeUnlocked && !hasShownBadgeUnlock) {
       markBadgeUnlockShown();
-      toast({ title: "Explorer badge unlocked", description: "You've explored all 7 cities" });
+      toast({ title: "Explorer badge unlocked", description: "You've collected all style stops" });
     }
   }, [isBadgeUnlocked, hasShownBadgeUnlock]);
 
   const handleSharePassport = () => {
     const cities = visitedCities.join(", ");
-    const text = `I explored ${visitedCities.length} cities on Aruona: ${cities}`;
+    const text = `My Aruona style stops: ${cities}`;
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       toast({ title: "Copied to clipboard", description: "Share your journey with friends" });
@@ -168,9 +168,12 @@ function StylePassport() {
     >
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2">
-          <h3 className="font-serif text-sm font-semibold" data-testid="text-style-passport-title">
-            Style Passport
-          </h3>
+          <div>
+            <h3 className="font-serif text-sm font-semibold" data-testid="text-style-passport-title">
+              Style Passport
+            </h3>
+            <p className="text-[10px] text-muted-foreground/60">Collect style stops as you explore the globe.</p>
+          </div>
           {isBadgeUnlocked && (
             <motion.div
               initial={!hasShownBadgeUnlock ? { opacity: 0, scale: 0.8 } : false}
@@ -193,14 +196,14 @@ function StylePassport() {
             data-testid="button-clear-passport"
           >
             <RotateCcw className="w-3 h-3 mr-1" />
-            Clear
+            Reset
           </Button>
         )}
       </div>
       <div className="space-y-2">
         <div className="flex items-center gap-1.5">
           <MapPin className="w-3.5 h-3.5 text-[#F0C4A8]" />
-          <span className="text-xs text-muted-foreground">Current Stop:</span>
+          <span className="text-xs text-muted-foreground">Current Style Stop:</span>
           <span className="text-xs font-medium" data-testid="text-current-stop">{selectedCity}</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -235,9 +238,12 @@ function StylePassport() {
             transition={{ duration: 0.35, ease: "easeOut" }}
             data-testid="section-route-unlocked"
           >
-            <div className="flex items-center gap-1.5">
-              <Route className="w-3.5 h-3.5 text-[#F0C4A8]" />
-              <span className="text-[11px] font-semibold">Route Unlocked</span>
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-1.5">
+                <Route className="w-3.5 h-3.5 text-[#F0C4A8]" />
+                <span className="text-[11px] font-semibold">Style Route Unlocked</span>
+              </div>
+              <p className="text-[10px] text-muted-foreground/70">A curated path through your style stops.</p>
             </div>
             <p className="text-[10px] text-muted-foreground" data-testid="text-route-path">
               {routeCities.join(" → ")}
@@ -250,19 +256,20 @@ function StylePassport() {
               data-testid="button-travel-route"
             >
               <MapPin className="w-3 h-3" />
-              Travel this route
+              Explore this route
             </Button>
           </motion.div>
         )}
 
         {isBadgeUnlocked && (
           <motion.div
-            className="pt-2 mt-1 border-t border-border/30"
+            className="pt-2 mt-1 border-t border-border/30 space-y-1.5"
             initial={!hasShownBadgeUnlock ? { opacity: 0, y: 8 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 }}
             data-testid="section-badge-unlocked"
           >
+            <p className="text-[10px] text-muted-foreground/70">Collected all style stops.</p>
             <Button
               variant="outline"
               size="sm"
@@ -271,7 +278,7 @@ function StylePassport() {
               data-testid="button-share-passport"
             >
               {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-              {copied ? "Copied" : "Share Passport"}
+              {copied ? "Copied" : "Share Style Passport"}
             </Button>
           </motion.div>
         )}

@@ -1,0 +1,103 @@
+Tighten Microcopy (Keep Travel Metaphor, Avoid “Travel Booking” Confusion)
+
+Update UI text so the experience reads as style exploration (metaphorical travel), not real-world trip planning. Do NOT change functionality or layout. Only change labels, headings, helper text, and toast copy.
+
+⸻
+
+1) Rename “Passport” language to explicitly be about style
+
+Wherever the UI says “Style Passport” / “Passport”, ensure it reads clearly as style-based.
+
+Recommended:
+	•	“Style Passport” (keep this title)
+Avoid:
+	•	“Passport” alone
+
+⸻
+
+2) Replace “destination planning” vibes with “collection” vibes
+
+Update these labels in the Passport card:
+	•	“Current Stop:” → “Current Style Stop:”
+	•	“Stops Collected:” → “Stops Collected:” (fine) OR “Stops Saved:” (even clearer)
+	•	“Clear” → “Reset” (or “Clear Stops” if you want explicit)
+
+Add a subtle helper line under the Passport title (small, calm text):
+	•	“Collect style stops as you explore the globe.”
+
+This instantly prevents Expedia mental model.
+
+⸻
+
+3) Route section wording (make it feel like a curated path, not itinerary)
+
+In the 3-stop milestone section:
+	•	“Route Unlocked” → “Style Route Unlocked” or “Route Unlocked” with a subtitle
+Add subtitle under it:
+	•	“A curated path through your style stops.”
+
+CTA button:
+	•	“Travel this route” → “Explore this route”
+(“Explore” is your brand voice and avoids booking vibes.)
+
+Toast:
+	•	“Route unlocked” → “Style route unlocked”
+
+⸻
+
+4) Travel Mode microcopy (keep metaphor, avoid booking)
+
+Inside Travel Mode header/subtitle:
+	•	“Currently exploring:” is fine
+Optional tweak:
+	•	“Exploring style in: {City}” (if you want clearer)
+
+Avoid words:
+	•	“Trip”
+	•	“Plan”
+	•	“Book”
+	•	“Itinerary”
+	•	“Depart/Arrive”
+	•	“Tickets/Flights”
+
+⸻
+
+5) Explorer badge wording (make it feel like achievement, not travel status)
+
+For 7-stop unlock:
+	•	“Aruona Explorer” badge is good.
+Add a tiny caption:
+	•	“Completed all style stops.” (or “Collected all stops.”)
+
+Share button:
+	•	“Share Passport” → “Share your stops” or “Share Style Passport”
+Clipboard copy text should read like:
+	•	“My Aruona style stops: Tokyo, New York, Paris…”
+Not “destinations visited” (too travel-literal).
+
+Toast:
+	•	“Explorer badge unlocked” → “Explorer badge unlocked” (fine)
+
+⸻
+
+6) Remote signal microcopy (keep it consistent)
+
+In the control strip above the feed:
+	•	“Showing: Tokyo • Tap the globe to travel” → “Showing: Tokyo • Tap the globe to explore”
+
+This is a big one. “Travel” is what triggers booking vibes. Use “explore.”
+
+⸻
+
+7) Acceptance checklist
+
+After changes:
+	•	No wording implies booking travel.
+	•	“Explore” replaces “Travel” in key spots.
+	•	Passport language clearly signals “style collection.”
+	•	No layout or functionality changes.
+	•	No TS/console errors.
+
+If any text appears in multiple places, update all occurrences consistently.
+
+⸻

@@ -25,7 +25,7 @@ function RemoteSignal() {
         <span className="text-xs text-muted-foreground truncate" data-testid="text-remote-signal">
           <span className="font-semibold text-foreground/70">Showing:</span>{" "}
           <span className="font-medium text-foreground">{selectedCity}</span>
-          <span className="hidden sm:inline text-muted-foreground/60"> &middot; Tap the globe to travel</span>
+          <span className="hidden sm:inline text-muted-foreground/60"> &middot; Tap the globe to explore</span>
         </span>
       </div>
 
