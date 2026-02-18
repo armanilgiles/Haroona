@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (min-width: 1024px) {
-  .globe-breakout-mask {
-    mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
-  }
-}
-
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);
