@@ -1,0 +1,124 @@
+Implement Explore Map as a transformative “Travel Mode” that makes the globe the primary experience. Keep the current page layout and styling, but add a new mode that expands/spotlights the globe and dims the shopping UI.
+
+0) Goal (high level)
+	•	Add a UI state: isTravelMode (boolean, default false).
+	•	Clicking Explore Map toggles isTravelMode.
+	•	In Travel Mode:
+	•	the globe becomes the main focus (larger, centered/expanded)
+	•	product grid and side content are visually de-emphasized (dim/blur + disable interactions)
+	•	user selects a city on the globe to “travel”
+	•	selection animates + updates selectedCity
+	•	exiting Travel Mode returns to normal browsing
+
+1) Behavior requirements
+
+Explore Map button
+	•	When user clicks Explore Map:
+	•	set isTravelMode = true
+	•	Change Explore Map label while active:
+	•	“Explore Map” → “Return” (or “Back to Browse”)
+	•	Clicking again or pressing Esc should exit Travel Mode:
+	•	isTravelMode = false
+
+Closing Travel Mode
+Support all 3:
+	•	click “Return” button
+	•	press Esc
+	•	click outside the globe overlay (backdrop click)
+
+2) Travel Mode UI (must look premium)
+
+Implement Travel Mode as a full-screen overlay that sits above the page:
+	•	A semi-transparent darkened backdrop:
+	•	example: black at 35–45% opacity
+	•	optional subtle blur behind it
+	•	A centered “Travel Stage” container:
+	•	glassmorphism card (rounded 2xl)
+	•	subtle border + shadow
+	•	takes up ~80–90% width and ~75–85% height on desktop
+	•	responsive for mobile (nearly full screen)
+
+Inside the Travel Stage:
+	•	Large globe component (largest element)
+	•	Floating city labels/markers remain clickable
+	•	A small top bar:
+	•	left: “Travel Mode” label
+	•	center: “Currently exploring: {selectedCity}”
+	•	right: Close button (X)
+
+3) Interaction lock (important)
+
+When isTravelMode === true:
+	•	Disable pointer interactions on the underlying page content:
+	•	product cards should not be clickable
+	•	sidebar should not scroll/click
+	•	disable body scroll (no background scrolling)
+	•	Only the overlay should be interactive.
+
+4) City selection flow in Travel Mode (signature)
+
+When user clicks a city marker/label inside Travel Mode:
+	1.	set selectedCity to that city
+	2.	add to visitedCities (if not already there)
+	3.	show a micro “travel transition”:
+	•	quick fade/slide animation on the “Currently exploring” text
+	•	optional pulse/glow on the selected marker
+	4.	optional: auto-exit Travel Mode AFTER selection (configurable)
+	•	If you do auto-exit: wait 500–900ms after selection, then close overlay
+
+5) Animations (Framer Motion)
+
+Use Framer Motion for:
+	•	overlay fade in/out
+	•	Travel Stage scale in/out (subtle, premium)
+	•	content transition when city changes
+
+Animation style:
+	•	gentle, not bouncy
+	•	easeOut timing
+	•	200–350ms durations
+
+6) Maintain current layout + reuse existing globe
+
+Do NOT rebuild the globe logic.
+Reuse the existing functional globe component and selection handlers.
+Travel Mode should just render the globe in an expanded overlay.
+
+7) Accessibility requirements
+	•	Trap focus inside overlay (or at least focus the close button on open)
+	•	Add role="dialog" + aria-modal="true"
+	•	Escape closes modal
+	•	Close button has aria-label “Close Travel Mode”
+
+8) Code organization (clean)
+
+Create components:
+	•	components/TravelModeOverlay.tsx
+	•	hooks/useTravelMode.ts (optional)
+
+State:
+	•	If using Zustand: add isTravelMode, setTravelMode(boolean), toggleTravelMode()
+	•	Otherwise keep local state in the page component (but prefer Zustand since selectedCity already exists)
+
+9) Acceptance tests
+
+After implementation verify:
+	•	Clicking Explore Map opens overlay
+	•	Background cannot be clicked or scrolled
+	•	Globe works inside overlay
+	•	Selecting a city updates hero + curated picks after returning
+	•	Escape closes overlay
+	•	No TypeScript errors
+	•	No console errors
+
+⸻
+
+If Replit asks questions, do not debate—implement with best judgment and ship a working Travel Mode.
+
+⸻
+
+One extra ruthless note (so it actually feels special)
+
+In Travel Mode, the globe MUST be noticeably bigger than normal view. If it’s only slightly larger, it won’t feel like a mode change.
+
+⸻

@@ -1,7 +1,10 @@
-import { SlidersHorizontal, Globe, ArrowUpDown, Search } from "lucide-react";
+import { SlidersHorizontal, Globe, ArrowUpDown, Search, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAppStore } from "@/lib/store";
 
 export function FloatingActionBar() {
+  const { isTravelMode, toggleTravelMode } = useAppStore();
+
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-center gap-2 bg-card/90 backdrop-blur-md border border-border/30 rounded-full px-3 py-2 shadow-lg">
@@ -25,10 +28,20 @@ export function FloatingActionBar() {
 
         <Button
           className="rounded-full gap-1.5 shadow-[0_0_20px_rgba(240,196,168,0.4)]"
+          onClick={toggleTravelMode}
           data-testid="button-explore-map"
         >
-          <Globe className="w-4 h-4" />
-          Explore Map
+          {isTravelMode ? (
+            <>
+              <ArrowLeft className="w-4 h-4" />
+              Return
+            </>
+          ) : (
+            <>
+              <Globe className="w-4 h-4" />
+              Explore Map
+            </>
+          )}
         </Button>
 
         <Button

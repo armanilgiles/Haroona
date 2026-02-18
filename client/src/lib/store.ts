@@ -8,6 +8,7 @@ interface AppState {
   searchTerm: string;
   favorites: Set<string>;
   visitedCities: string[];
+  isTravelMode: boolean;
   setSelectedCity: (city: string) => void;
   setSelectedCategory: (category: string) => void;
   setSelectedStyle: (style: string) => void;
@@ -15,6 +16,8 @@ interface AppState {
   setSearchTerm: (term: string) => void;
   toggleFavorite: (productId: string) => void;
   clearVisitedCities: () => void;
+  toggleTravelMode: () => void;
+  setTravelMode: (value: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -25,6 +28,7 @@ export const useAppStore = create<AppState>((set) => ({
   searchTerm: "",
   favorites: new Set<string>(),
   visitedCities: ["Paris"],
+  isTravelMode: false,
   setSelectedCity: (city) =>
     set((state) => {
       const visited = state.visitedCities.includes(city)
@@ -47,4 +51,6 @@ export const useAppStore = create<AppState>((set) => ({
       return { favorites: newFavorites };
     }),
   clearVisitedCities: () => set({ visitedCities: [] }),
+  toggleTravelMode: () => set((state) => ({ isTravelMode: !state.isTravelMode })),
+  setTravelMode: (value) => set({ isTravelMode: value }),
 }));

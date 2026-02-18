@@ -10,6 +10,7 @@ import { Newsletter } from "@/components/newsletter";
 import { TrendingCities } from "@/components/trending-cities";
 import { StyleInspo } from "@/components/style-inspo";
 import { FloatingActionBar } from "@/components/floating-action-bar";
+import { TravelModeOverlay } from "@/components/travel-mode-overlay";
 import { useAppStore } from "@/lib/store";
 import { PRODUCTS } from "@/lib/mock-data";
 import { useQuery } from "@tanstack/react-query";
@@ -116,6 +117,7 @@ export default function Home() {
           </div>
 
           <FloatingActionBar />
+          <TravelModeOverlay />
         </div>
       </div>
     </SidebarProvider>
