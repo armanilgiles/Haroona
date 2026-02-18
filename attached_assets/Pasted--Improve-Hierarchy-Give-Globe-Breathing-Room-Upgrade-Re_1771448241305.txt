@@ -1,0 +1,74 @@
+ Improve Hierarchy: Give Globe Breathing Room + Upgrade Remote Signal Bar
+
+Make small, premium layout + styling refinements so the globe feels more dominant and the “Showing: {city}” bar feels like a control strip (not a passive label). Do NOT change functionality, state, or data — visuals/layout only.
+
+⸻
+
+1) Slightly reduce hero width so the globe has more breathing room
+
+Right now the hero banner and main content feel too wide, making the globe column feel cramped/secondary. Adjust the main grid proportions on desktop so the globe area has more visual space.
+
+Requirements:
+	•	On desktop (≥ 1024px), reduce the main content (hero + city cards + curated picks) width slightly.
+	•	Increase the right-side globe area width slightly OR increase the gap between main content and globe.
+	•	The goal is visual breathing room around the globe without breaking the layout.
+
+Implementation guidance:
+	•	If using a CSS grid for the layout, adjust column ratios (example target feel: main content ~60–65%, globe rail ~35–40%).
+	•	If using flex, reduce the max-width of the hero/main column and increase the max-width of the globe container.
+	•	Ensure no horizontal scrollbars appear.
+	•	Tablet/mobile should remain unchanged (no major layout shifts).
+
+Acceptance:
+	•	Globe feels less “tucked away” and more like a co-hero element.
+	•	Hero still looks premium and centered, just not dominating the entire canvas.
+
+⸻
+
+2) Upgrade the “Showing: {city} • Tap the globe to travel” bar (Remote Signal)
+
+Currently the signal is too visually quiet. Make it feel like a subtle “control strip” above the product feed.
+
+Styling changes:
+	•	Make the signal bar background slightly darker than the feed behind it:
+	•	keep it calm (light warm gray / soft beige tone), not harsh
+	•	Add slight elevation:
+	•	subtle shadow (very soft), enough to separate it from the feed
+	•	Add a small globe icon on the left before the text:
+	•	icon should be minimal and line-based
+	•	use an existing icon set already in the project if present (e.g., lucide/heroicons), otherwise add a lightweight icon
+	•	Maintain rounded corners and premium spacing.
+
+Layout / spacing:
+	•	Add a bit more vertical padding so it feels intentional, not cramped.
+	•	Keep it aligned with the grid width (matches “Curated Picks” width).
+	•	If it’s sticky, keep it sticky only within the feed section (not the entire page).
+
+Typography:
+	•	Keep text small but increase clarity:
+	•	“Showing:” slightly emphasized (semi-bold)
+	•	city name emphasized subtly (not giant)
+	•	keep “Tap the globe to travel” lighter/secondary
+
+Acceptance:
+	•	The bar reads like a UI control, not a label.
+	•	The globe icon visually cues “remote” behavior instantly.
+
+⸻
+
+3) Keep the toggle aligned and premium
+
+Do not change toggle behavior. Only adjust its placement to look more intentional:
+	•	Align the toggle cleanly inside the signal bar.
+	•	Ensure it doesn’t feel tacked on (balanced spacing, consistent height with the bar).
+	•	If needed, add a thin divider between text and toggle area.
+
+⸻
+
+4) Don’t break anything
+	•	Do NOT change city logic, filters, persistence, travel mode, or passport logic.
+	•	No console errors / TypeScript errors.
+
+⸻
+
+If anything is ambiguous, prioritize subtle premium improvements. Keep changes small and controlled, but make the globe feel more like a co-hero and the signal bar feel like a control strip.

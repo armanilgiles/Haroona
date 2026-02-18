@@ -11,40 +11,45 @@ interface CuratedPicksProps {
 }
 
 function RemoteSignal() {
-  const { selectedCity, isRemoteLockEnabled, toggleRemoteLock, setTravelMode } = useAppStore();
+  const { selectedCity, isRemoteLockEnabled, toggleRemoteLock } = useAppStore();
 
   return (
     <div
-      className="sticky top-0 z-30 flex items-center justify-between gap-2 px-3 py-1.5 rounded-full bg-muted/60 backdrop-blur-sm border border-border/40"
+      className="sticky top-0 z-30 flex items-center justify-between gap-3 px-4 py-2.5 rounded-md bg-card/80 dark:bg-card/60 backdrop-blur-md border border-border/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
       data-testid="bar-remote-signal"
     >
-      <div className="flex items-center gap-2 min-w-0">
-        <MapPin className="w-3 h-3 text-[#F0C4A8] flex-shrink-0" />
+      <div className="flex items-center gap-2.5 min-w-0">
+        <div className="w-6 h-6 rounded-full bg-[#F0C4A8]/15 flex items-center justify-center flex-shrink-0">
+          <Globe className="w-3.5 h-3.5 text-[#F0C4A8]" />
+        </div>
         <span className="text-xs text-muted-foreground truncate" data-testid="text-remote-signal">
-          Showing: <span className="font-medium text-foreground">{selectedCity}</span>
-          <span className="hidden sm:inline"> &middot; Tap the globe to travel</span>
+          <span className="font-semibold text-foreground/70">Showing:</span>{" "}
+          <span className="font-medium text-foreground">{selectedCity}</span>
+          <span className="hidden sm:inline text-muted-foreground/60"> &middot; Tap the globe to travel</span>
         </span>
       </div>
-      <div className="flex items-center gap-1.5 flex-shrink-0">
+
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="hidden sm:block w-px h-4 bg-border/60" />
         <button
           onClick={toggleRemoteLock}
-          className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium transition-colors cursor-pointer ${
+          className={`flex items-center gap-2 px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors cursor-pointer ${
             isRemoteLockEnabled
-              ? "bg-[#F0C4A8]/20 text-foreground"
+              ? "bg-[#F0C4A8]/15 text-foreground"
               : "bg-transparent text-muted-foreground"
           }`}
           data-testid="button-toggle-remote-lock"
         >
-          <Globe className="w-3 h-3" />
+          <MapPin className="w-3 h-3 flex-shrink-0" />
           <span className="hidden sm:inline">Globe Controls Feed</span>
           <span
-            className={`w-6 h-3.5 rounded-full relative transition-colors ${
-              isRemoteLockEnabled ? "bg-[#F0C4A8]" : "bg-muted-foreground/30"
+            className={`w-7 h-4 rounded-full relative transition-colors ${
+              isRemoteLockEnabled ? "bg-[#F0C4A8]" : "bg-muted-foreground/25"
             }`}
           >
             <span
-              className={`absolute top-0.5 w-2.5 h-2.5 rounded-full bg-white shadow-sm transition-transform ${
-                isRemoteLockEnabled ? "translate-x-3" : "translate-x-0.5"
+              className={`absolute top-0.5 w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${
+                isRemoteLockEnabled ? "translate-x-3.5" : "translate-x-0.5"
               }`}
             />
           </span>

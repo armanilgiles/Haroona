@@ -63,8 +63,8 @@ export default function Home() {
           <SearchBar />
 
           <div className="flex-1 px-4 md:px-6 pb-20 space-y-6">
-            <div className="flex flex-col lg:flex-row gap-6">
-              <main className="flex-1 min-w-0 space-y-6">
+            <div className="flex flex-col lg:flex-row gap-8">
+              <main className="flex-1 min-w-0 space-y-6 lg:max-w-[62%]">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function Home() {
                 </motion.div>
               </main>
 
-              <aside className="w-full lg:w-72 flex-shrink-0 space-y-4">
+              <aside className="w-full lg:w-80 flex-shrink-0 space-y-4">
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
