@@ -1,0 +1,325 @@
+I want to build a luxury fashion discovery web app called Aruona.
+
+The design is globe-first, soft pastel, botanical, premium aesthetic — similar to a high-end Apple + Pinterest + Airbnb hybrid.
+
+The app is NOT a basic e-commerce grid.
+It is a world-style exploration platform where users travel the globe through fashion.
+
+⸻
+
+🧱 TECH STACK REQUIREMENTS
+
+Use:
+	•	Next.js 14+ (App Router)
+	•	React
+	•	TypeScript
+	•	TailwindCSS
+	•	Framer Motion (for animations)
+	•	Shadcn UI components (where useful)
+	•	Zustand (for lightweight global state)
+	•	React Three Fiber OR Cobe (for interactive globe)
+	•	Responsive design (desktop-first, mobile adaptive)
+
+⸻
+
+🎨 DESIGN LANGUAGE
+
+Aesthetic:
+	•	Soft pastel gradients (peach, sage, muted blue, dusty rose)
+	•	Warm golden glow accents
+	•	Glassmorphism cards
+	•	Rounded corners (xl/2xl)
+	•	Soft shadows (not harsh)
+	•	Subtle noise texture
+	•	Botanical frame edges (optional decorative overlay)
+	•	Elegant serif logo typography for “ARUONA”
+	•	Clean sans-serif for UI
+
+Mood:
+	•	Calm
+	•	Premium
+	•	Curated
+	•	Global
+	•	Editorial
+
+⸻
+
+🏗️ FULL PAGE STRUCTURE (DESKTOP)
+
+Create a single landing dashboard page structured like this:
+
+⸻
+
+1️⃣ Top Navigation Bar
+
+Full width.
+
+Left:
+	•	Hamburger menu icon
+
+Center:
+	•	Logo text: “ARUONA” (elegant serif font, spaced letters)
+
+Right:
+	•	Search icon
+	•	Circular user avatar image
+
+⸻
+
+2️⃣ Search Bar Section
+
+Below nav:
+
+Large rounded search input:
+
+Placeholder:
+
+Try: “Parisian Summer”
+
+Right side:
+Rounded peach “Search” button.
+
+Under search:
+Horizontal category pills:
+	•	All
+	•	Dresses
+	•	Bags
+	•	Shoes
+	•	Men
+
+Rounded, muted pastel backgrounds.
+
+⸻
+
+3️⃣ Left Sidebar (Trending Panel)
+
+Glassmorphism card panel.
+
+Title:
+Trending
+
+Vertical list:
+	•	All
+	•	Parisian Chic
+	•	Minimal Summer
+	•	Quiet Luxury
+	•	Tokyo Streetwear
+
+Below:
+“Trending For You” section with 3 mini product cards:
+	•	Image
+	•	Name
+	•	Price
+	•	Buy Now button
+
+Keep sidebar narrow and elegant.
+
+⸻
+
+4️⃣ Main Center Column
+
+Top:
+Tag filters:
+	•	All
+	•	Dresses
+	•	Bags
+	•	Shoes
+
+Below that:
+Style tags:
+	•	Parisian Chic
+	•	Minimal Summer
+	•	Quiet Luxury
+
+Then:
+Featured City Card (large horizontal card)
+Example:
+Marrakech
+Image banner
+Arrow icon on right
+
+Below:
+Mini location cards:
+Paris | Italy | Tokyo | London
+
+⸻
+
+5️⃣ Curated Picks Section
+
+Title:
+Curated Picks
+
+Three product cards:
+
+Card structure:
+	•	Location tag at top (Paris, Italy, Tokyo)
+	•	Large image
+	•	Product name
+	•	Price
+	•	Brand name
+	•	Favorite heart icon
+
+Example products:
+	•	Linen Dress – $320 – Reformation
+	•	Leather Bag – $1200 – Gucci
+	•	Street Sneaker – $189 – Nike
+
+Cards should have:
+	•	Soft shadows
+	•	Rounded corners
+	•	Subtle hover lift animation
+	•	Heart turns red on click
+
+⸻
+
+6️⃣ Right Side: 3D Globe Section
+
+This is the hero.
+
+Large interactive 3D globe.
+
+Must:
+	•	Be draggable
+	•	Soft pastel earth tones
+	•	Golden glowing location dots
+	•	Floating city labels:
+	•	Paris
+	•	Tokyo
+	•	London
+	•	New York
+
+When user clicks a city:
+	•	Highlight it
+	•	Trigger animation
+	•	Update featured products
+
+Below globe:
+Section:
+“Shop the Globe”
+
+Two horizontal city cards:
+Tokyo | New York
+
+Right side button:
+“See All”
+
+⸻
+
+7️⃣ Newsletter Box
+
+Card on right:
+
+Title:
+Get Stylish Updates
+
+Subtitle:
+From Paris, Copenhagen & Beyond!
+
+Input:
+Email field
+
+Button:
+Sign Up
+
+⸻
+
+8️⃣ Trending Cities Box
+
+List style:
+
+Paris +22k
+Copenhagen +18k
+Tokyo +15k
+
+Small clean card style.
+
+⸻
+
+9️⃣ Bottom Action Bar (Floating)
+
+Centered pill-style control bar:
+
+Buttons:
+	•	Filter
+	•	Explore Map (center highlight button)
+	•	Sort
+
+Explore Map should be emphasized with soft peach glow.
+
+⸻
+
+🌎 GLOBE FUNCTIONALITY DETAILS
+
+Use React Three Fiber or Cobe.
+
+Requirements:
+	•	Smooth auto rotation
+	•	Drag interaction
+	•	Clickable markers
+	•	Animated focus on marker click
+	•	Soft glowing arcs between cities
+	•	Slight ambient rim light
+	•	Subtle animated atmosphere glow
+
+Marker colors:
+	•	Paris: peach
+	•	Tokyo: muted orange
+	•	London: blue
+	•	New York: gold
+
+⸻
+
+✨ INTERACTIONS
+	•	Hover lift on cards
+	•	Soft fade-in animations on load
+	•	Globe rotates slightly on idle
+	•	Clicking heart icon animates scale
+	•	Clicking city filters product grid
+	•	Smooth transitions (no harsh changes)
+
+⸻
+
+📱 MOBILE BEHAVIOR
+	•	Globe becomes smaller hero
+	•	Sidebar collapses into drawer
+	•	Curated Picks becomes horizontal scroll
+	•	Bottom nav becomes sticky
+	•	Floating explore button remains visible
+
+⸻
+
+📦 MOCK DATA
+
+Generate mock JSON data for:
+
+Cities
+Products
+Trending categories
+
+Keep structure scalable.
+
+⸻
+
+🧠 STATE MANAGEMENT
+
+Use Zustand to manage:
+	•	Selected city
+	•	Selected category
+	•	Favorites
+	•	Search term
+
+⸻
+
+🎯 GOAL
+
+Generate:
+	•	Folder structure
+	•	All components modularized
+	•	Clean, production-quality code
+	•	Reusable UI components
+	•	Styled with Tailwind
+	•	Smooth animations
+	•	Fully responsive
+
+Do NOT generate placeholder junk layout.
+Match luxury editorial aesthetic.
