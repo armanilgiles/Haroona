@@ -51,6 +51,12 @@ A globe-first, luxury fashion discovery web application where users explore cura
 - City changes trigger: hero banner update, curated picks filter, toast notification, Style Passport update
 - Vibes are primary discovery filter; categories are secondary
 - Style Passport tracks visitedCities with "Clear" reset option
+- **Travel Mode**: "Explore Map" button opens full-screen overlay with expanded globe
+  - Glassmorphism stage (~80vh), darkened backdrop with blur
+  - City markers + destinations sidebar with progress bar
+  - Auto-closes ~700ms after city selection
+  - Close via: X button, Escape key, or backdrop click
+  - Body scroll locked during overlay; aria-modal dialog
 
 ## User Preferences
 - Luxury editorial aesthetic
