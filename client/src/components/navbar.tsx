@@ -13,7 +13,7 @@ export function NavBar() {
           className="font-serif text-xl md:text-2xl tracking-[0.3em] font-medium"
           data-testid="text-logo"
         >
-          ARUONA
+          Haroona
         </h1>
         <p
           className="hidden sm:block text-[9px] md:text-[10px] tracking-[0.2em] text-muted-foreground/60 -mt-0.5"
@@ -28,7 +28,10 @@ export function NavBar() {
           <Search className="w-5 h-5" />
         </Button>
         <Avatar className="w-8 h-8 border border-border/50">
-          <AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="User" />
+          <AvatarImage
+            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"
+            alt="User"
+          />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
       </div>

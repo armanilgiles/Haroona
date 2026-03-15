@@ -1,4 +1,4 @@
-I want to build a luxury fashion discovery web app called Aruona.
+I want to build a luxury fashion discovery web app called Haroona.
 
 The design is globe-first, soft pastel, botanical, premium aesthetic — similar to a high-end Apple + Pinterest + Airbnb hybrid.
 
@@ -32,7 +32,7 @@ Aesthetic:
 	•	Soft shadows (not harsh)
 	•	Subtle noise texture
 	•	Botanical frame edges (optional decorative overlay)
-	•	Elegant serif logo typography for “ARUONA”
+	•	Elegant serif logo typography for “Haroona”
 	•	Clean sans-serif for UI
 
 Mood:
@@ -58,7 +58,7 @@ Left:
 	•	Hamburger menu icon
 
 Center:
-	•	Logo text: “ARUONA” (elegant serif font, spaced letters)
+	•	Logo text: “Haroona” (elegant serif font, spaced letters)
 
 Right:
 	•	Search icon

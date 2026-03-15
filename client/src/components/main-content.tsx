@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
-import { CITIES } from "@/lib/mock-data";
+import { CITIES } from "@/lib/mock-data_2";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
@@ -10,12 +10,12 @@ export function MainContent() {
   const { selectedCity, setSelectedCity } = useAppStore();
   const { toast } = useToast();
 
-  const featuredCity = CITIES.find(
-    (c) => c.name.toLowerCase() === selectedCity.toLowerCase()
-  ) || CITIES[0];
+  const featuredCity =
+    CITIES.find((c) => c.name.toLowerCase() === selectedCity.toLowerCase()) ||
+    CITIES[0];
 
   const otherCities = CITIES.filter(
-    (c) => c.name.toLowerCase() !== selectedCity.toLowerCase()
+    (c) => c.name.toLowerCase() !== selectedCity.toLowerCase(),
   ).slice(0, 4);
 
   const handleCitySelect = (cityName: string) => {
@@ -47,12 +47,17 @@ export function MainContent() {
                 src={featuredCity.image}
                 alt={featuredCity.name}
                 className="w-full h-full object-cover"
-                style={{ filter: "saturate(0.92) contrast(0.96) brightness(0.97)" }}
+                style={{
+                  filter: "saturate(0.92) contrast(0.96) brightness(0.97)",
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-2">
                 <div>
-                  <Badge variant="secondary" className="text-[10px] rounded-full bg-white/20 backdrop-blur-sm text-white border-none mb-1.5">
+                  <Badge
+                    variant="secondary"
+                    className="text-[10px] rounded-full bg-white/20 backdrop-blur-sm text-white border-none mb-1.5"
+                  >
                     Currently Exploring
                   </Badge>
                   <h3 className="text-white font-serif text-xl font-semibold">

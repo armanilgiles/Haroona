@@ -12,26 +12,38 @@ import { StyleInspo } from "@/components/style-inspo";
 import { FloatingActionBar } from "@/components/floating-action-bar";
 import { TravelModeOverlay } from "@/components/travel-mode-overlay";
 import { useAppStore } from "@/lib/store";
-import { PRODUCTS } from "@/lib/mock-data";
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@shared/schema";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { PRODUCTS, RAKUTEN_PRODUCTS_ADAPTED } from "@/lib/mock-data";
 
 export default function Home() {
-  const { selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm, isRemoteLockEnabled } = useAppStore();
+  const {
+    selectedCategory,
+    selectedStyle,
+    selectedCity,
+    selectedVibe,
+    searchTerm,
+    isRemoteLockEnabled,
+  } = useAppStore();
 
   const { data: apiProducts } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
 
-  const products = apiProducts && apiProducts.length > 0 ? apiProducts : PRODUCTS;
+  const products =
+    apiProducts && apiProducts.length > 0
+      ? apiProducts
+      : [...PRODUCTS, ...RAKUTEN_PRODUCTS_ADAPTED];
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       if (isRemoteLockEnabled) {
-        if (p.cityName.toLowerCase() !== selectedCity.toLowerCase()) return false;
+        if (p.cityName.toLowerCase() !== selectedCity.toLowerCase())
+          return false;
       }
-      if (selectedCategory !== "All" && p.category !== selectedCategory) return false;
+      if (selectedCategory !== "All" && p.category !== selectedCategory)
+        return false;
       if (selectedStyle !== "All" && p.style !== selectedStyle) return false;
       if (selectedVibe !== "All" && p.vibe !== selectedVibe) return false;
       if (searchTerm) {
@@ -46,7 +58,15 @@ export default function Home() {
       }
       return true;
     });
-  }, [products, selectedCategory, selectedStyle, selectedCity, selectedVibe, searchTerm, isRemoteLockEnabled]);
+  }, [
+    products,
+    selectedCategory,
+    selectedStyle,
+    selectedCity,
+    selectedVibe,
+    searchTerm,
+    isRemoteLockEnabled,
+  ]);
 
   const sidebarStyle = {
     "--sidebar-width": "14rem",
@@ -78,7 +98,9 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
-                  <CuratedPicks products={filteredProducts as typeof PRODUCTS} />
+                  <CuratedPicks
+                    products={filteredProducts as typeof PRODUCTS}
+                  />
                 </motion.div>
               </main>
 

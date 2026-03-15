@@ -2,10 +2,17 @@ import { Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
-import { CATEGORIES, VIBES } from "@/lib/mock-data";
+import { CATEGORIES, VIBES } from "@/lib/mock-data_2";
 
 export function SearchBar() {
-  const { searchTerm, setSearchTerm, selectedCategory, setSelectedCategory, selectedVibe, setSelectedVibe } = useAppStore();
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedCategory,
+    setSelectedCategory,
+    selectedVibe,
+    setSelectedVibe,
+  } = useAppStore();
 
   return (
     <div className="px-4 md:px-6 py-4 space-y-3">
@@ -21,10 +28,7 @@ export function SearchBar() {
             data-testid="input-search"
           />
         </div>
-        <Button
-          className="rounded-full"
-          data-testid="button-search"
-        >
+        <Button className="rounded-full" data-testid="button-search">
           <Search className="w-4 h-4 mr-1.5" />
           Explore
         </Button>
@@ -38,7 +42,9 @@ export function SearchBar() {
               key={vibe}
               variant={selectedVibe === vibe ? "default" : "secondary"}
               className="cursor-pointer rounded-full"
-              onClick={() => setSelectedVibe(selectedVibe === vibe ? "All" : vibe)}
+              onClick={() =>
+                setSelectedVibe(selectedVibe === vibe ? "All" : vibe)
+              }
               data-testid={`button-vibe-${vibe.toLowerCase().replace(/\s/g, "-")}`}
             >
               {vibe}

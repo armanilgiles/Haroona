@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/lib/store";
-import { PRODUCTS } from "@/lib/mock-data";
+import { PRODUCTS } from "@/lib/mock-data_2";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CuratedPicksProps {
@@ -22,10 +22,16 @@ function RemoteSignal() {
         <div className="w-6 h-6 rounded-full bg-[#F0C4A8]/15 flex items-center justify-center flex-shrink-0">
           <Globe className="w-3.5 h-3.5 text-[#F0C4A8]" />
         </div>
-        <span className="text-xs text-muted-foreground truncate" data-testid="text-remote-signal">
+        <span
+          className="text-xs text-muted-foreground truncate"
+          data-testid="text-remote-signal"
+        >
           <span className="font-semibold text-foreground/70">Showing:</span>{" "}
           <span className="font-medium text-foreground">{selectedCity}</span>
-          <span className="hidden sm:inline text-muted-foreground/60"> &middot; Tap the globe to explore</span>
+          <span className="hidden sm:inline text-muted-foreground/60">
+            {" "}
+            &middot; Tap the globe to explore
+          </span>
         </span>
       </div>
 
@@ -63,11 +69,24 @@ function EmptyGateState() {
   const { setTravelMode } = useAppStore();
 
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center space-y-3" data-testid="container-empty-gate">
+    <div
+      className="flex flex-col items-center justify-center py-16 text-center space-y-3"
+      data-testid="container-empty-gate"
+    >
       <Globe className="w-10 h-10 text-muted-foreground/30" />
       <div className="space-y-1">
-        <p className="text-sm font-medium text-foreground" data-testid="text-gate-title">Pick a city to begin</p>
-        <p className="text-xs text-muted-foreground" data-testid="text-gate-subtitle">The globe controls what you see.</p>
+        <p
+          className="text-sm font-medium text-foreground"
+          data-testid="text-gate-title"
+        >
+          Pick a city to begin
+        </p>
+        <p
+          className="text-xs text-muted-foreground"
+          data-testid="text-gate-subtitle"
+        >
+          The globe controls what you see.
+        </p>
       </div>
       <Button
         variant="outline"
@@ -84,20 +103,39 @@ function EmptyGateState() {
 }
 
 export function CuratedPicks({ products }: CuratedPicksProps) {
-  const { selectedCity, selectedCategory, setSelectedCategory, selectedStyle, setSelectedStyle, selectedVibe, setSelectedVibe, isRemoteLockEnabled } = useAppStore();
+  const {
+    selectedCity,
+    selectedCategory,
+    setSelectedCategory,
+    selectedStyle,
+    setSelectedStyle,
+    selectedVibe,
+    setSelectedVibe,
+    isRemoteLockEnabled,
+  } = useAppStore();
   const displayProducts = products.slice(0, 6);
-  const hasFilters = selectedCategory !== "All" || selectedStyle !== "All" || selectedVibe !== "All";
+  const hasFilters =
+    selectedCategory !== "All" ||
+    selectedStyle !== "All" ||
+    selectedVibe !== "All";
 
   return (
     <div className="space-y-3">
       <RemoteSignal />
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2">
-          <h2 className="font-serif text-lg font-semibold" data-testid="text-curated-picks">
+          <h2
+            className="font-serif text-lg font-semibold"
+            data-testid="text-curated-picks"
+          >
             Curated Picks
           </h2>
           {isRemoteLockEnabled && (
-            <Badge variant="outline" className="text-[10px] rounded-full" data-testid="badge-city-filter">
+            <Badge
+              variant="outline"
+              className="text-[10px] rounded-full"
+              data-testid="badge-city-filter"
+            >
               {selectedCity}
             </Badge>
           )}
@@ -105,25 +143,43 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
         {hasFilters && (
           <div className="flex items-center gap-1.5 flex-wrap">
             {selectedCategory !== "All" && (
-              <Badge variant="secondary" className="text-[10px] rounded-full gap-1">
+              <Badge
+                variant="secondary"
+                className="text-[10px] rounded-full gap-1"
+              >
                 {selectedCategory}
-                <button onClick={() => setSelectedCategory("All")} data-testid="button-clear-category">
+                <button
+                  onClick={() => setSelectedCategory("All")}
+                  data-testid="button-clear-category"
+                >
                   <X className="w-3 h-3" />
                 </button>
               </Badge>
             )}
             {selectedStyle !== "All" && (
-              <Badge variant="secondary" className="text-[10px] rounded-full gap-1">
+              <Badge
+                variant="secondary"
+                className="text-[10px] rounded-full gap-1"
+              >
                 {selectedStyle}
-                <button onClick={() => setSelectedStyle("All")} data-testid="button-clear-style">
+                <button
+                  onClick={() => setSelectedStyle("All")}
+                  data-testid="button-clear-style"
+                >
                   <X className="w-3 h-3" />
                 </button>
               </Badge>
             )}
             {selectedVibe !== "All" && (
-              <Badge variant="secondary" className="text-[10px] rounded-full gap-1">
+              <Badge
+                variant="secondary"
+                className="text-[10px] rounded-full gap-1"
+              >
                 {selectedVibe}
-                <button onClick={() => setSelectedVibe("All")} data-testid="button-clear-vibe">
+                <button
+                  onClick={() => setSelectedVibe("All")}
+                  data-testid="button-clear-vibe"
+                >
                   <X className="w-3 h-3" />
                 </button>
               </Badge>
@@ -156,7 +212,13 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
   );
 }
 
-function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: number }) {
+function ProductCard({
+  product,
+  index,
+}: {
+  product: (typeof PRODUCTS)[0];
+  index: number;
+}) {
   const { favorites, toggleFavorite } = useAppStore();
   const isFav = favorites.has(product.id);
 
@@ -210,14 +272,23 @@ function ProductCard({ product, index }: { product: typeof PRODUCTS[0]; index: n
           </div>
         </div>
         <div className="p-3 space-y-0.5">
-          <p className="text-sm font-medium" data-testid={`text-product-name-${product.id}`}>
+          <p
+            className="text-sm font-medium"
+            data-testid={`text-product-name-${product.id}`}
+          >
             {product.name}
           </p>
-          <p className="text-sm font-semibold" data-testid={`text-product-price-${product.id}`}>
+          <p
+            className="text-sm font-semibold"
+            data-testid={`text-product-price-${product.id}`}
+          >
             ${product.price.toLocaleString()}
           </p>
           <div className="flex items-center gap-1.5">
-            <Badge variant="outline" className="text-[9px] rounded-full no-default-hover-elevate no-default-active-elevate">
+            <Badge
+              variant="outline"
+              className="text-[9px] rounded-full no-default-hover-elevate no-default-active-elevate"
+            >
               {product.vibe}
             </Badge>
             <p className="text-xs text-muted-foreground">{product.brand}</p>

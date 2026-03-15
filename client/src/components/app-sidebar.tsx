@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { useAppStore } from "@/lib/store";
-import { TRENDING_STYLES, PRODUCTS } from "@/lib/mock-data";
+import { TRENDING_STYLES, PRODUCTS } from "@/lib/mock-data_2";
 
 const ICON_MAP: Record<string, typeof Grid3X3> = {
   grid: Grid3X3,
@@ -33,7 +33,10 @@ export function AppSidebar({ products }: AppSidebarProps) {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="font-serif text-base font-semibold" data-testid="text-current-moods-title">
+          <SidebarGroupLabel
+            className="font-serif text-base font-semibold"
+            data-testid="text-current-moods-title"
+          >
             Current Moods
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -59,7 +62,10 @@ export function AppSidebar({ products }: AppSidebarProps) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="font-serif text-sm font-semibold" data-testid="text-picked-for-you">
+          <SidebarGroupLabel
+            className="font-serif text-sm font-semibold"
+            data-testid="text-picked-for-you"
+          >
             Picked For You
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -75,9 +81,12 @@ export function AppSidebar({ products }: AppSidebarProps) {
   );
 }
 
-function TrendingProductCard({ product }: { product: typeof PRODUCTS[0] }) {
+function TrendingProductCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   return (
-    <div className="flex items-center gap-3" data-testid={`card-trending-product-${product.id}`}>
+    <div
+      className="flex items-center gap-3"
+      data-testid={`card-trending-product-${product.id}`}
+    >
       <div className="w-14 h-14 rounded-md overflow-hidden flex-shrink-0 bg-muted">
         <img
           src={product.image}

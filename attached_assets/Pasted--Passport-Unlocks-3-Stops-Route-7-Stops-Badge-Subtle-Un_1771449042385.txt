@@ -24,10 +24,10 @@ Milestone A: 3 Stops → Unlock “Route”
 
 Milestone B: 7 Stops → Unlock “Explorer Badge”
 	•	When visitedCities.length reaches 7 or more, set isBadgeUnlocked = true.
-	•	Show a small badge/pill in the Passport card: “World Explorer” (or “Aruona Explorer”)
+	•	Show a small badge/pill in the Passport card: “World Explorer” (or “Haroona Explorer”)
 	•	Add a secondary CTA: “Share Passport”
 	•	MVP acceptable behavior:
-	•	Copies a text summary to clipboard (e.g., “I explored 7 cities on Aruona: …”)
+	•	Copies a text summary to clipboard (e.g., “I explored 7 cities on Haroona: …”)
 	•	Or triggers a simple modal with the text ready to copy
 	•	Do not overbuild images/sharing yet.
 
@@ -62,7 +62,7 @@ The Passport “Clear” action should:
 
 4) Keep it consistent with existing product language
 
-Use calm, soft wording (Aruona voice):
+Use calm, soft wording (Haroona voice):
 	•	“Route unlocked”
 	•	“Travel this route”
 	•	“Explorer badge”

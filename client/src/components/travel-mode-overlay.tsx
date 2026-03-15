@@ -9,13 +9,55 @@ import { useToast } from "@/hooks/use-toast";
 import createGlobe from "cobe";
 
 const MARKER_LOCATIONS = [
-  { location: [48.8566, 2.3522] as [number, number], size: 0.08, name: "Paris", country: "France" },
-  { location: [35.6762, 139.6503] as [number, number], size: 0.08, name: "Tokyo", country: "Japan" },
-  { location: [51.5074, -0.1278] as [number, number], size: 0.07, name: "London", country: "UK" },
-  { location: [40.7128, -74.006] as [number, number], size: 0.08, name: "New York", country: "USA" },
-  { location: [41.9028, 12.4964] as [number, number], size: 0.06, name: "Italy", country: "Italy" },
-  { location: [55.6761, 12.5683] as [number, number], size: 0.06, name: "Copenhagen", country: "Denmark" },
-  { location: [31.6295, -7.9811] as [number, number], size: 0.06, name: "Marrakech", country: "Morocco" },
+  {
+    location: [48.8566, 2.3522] as [number, number],
+    size: 0.08,
+    name: "Paris",
+    country: "France",
+  },
+  {
+    location: [35.6762, 139.6503] as [number, number],
+    size: 0.08,
+    name: "Tokyo",
+    country: "Japan",
+  },
+  {
+    location: [51.5074, -0.1278] as [number, number],
+    size: 0.07,
+    name: "London",
+    country: "UK",
+  },
+  {
+    location: [40.7128, -74.006] as [number, number],
+    size: 0.08,
+    name: "New York",
+    country: "USA",
+  },
+  {
+    location: [41.9028, 12.4964] as [number, number],
+    size: 0.06,
+    name: "Los Angeles",
+    country: "USA",
+  },
+  {
+    location: [55.6761, 12.5683] as [number, number],
+    size: 0.06,
+    name: "Copenhagen",
+    country: "Denmark",
+  },
+
+  {
+    location: [31.6295, -7.9811] as [number, number],
+    size: 0.06,
+    name: "Marrakech",
+    country: "Morocco",
+  },
+  {
+    location: [6.5244, 3.3792] as [number, number],
+    size: 0.06,
+    name: "Lagos",
+    country: "Nigeria",
+  },
 ];
 
 function TravelGlobe() {
@@ -84,7 +126,8 @@ function TravelGlobe() {
       className="w-full aspect-square cursor-grab active:cursor-grabbing"
       style={{ display: "block" }}
       onPointerDown={(e) => {
-        pointerInteracting.current = e.clientX - pointerInteractionMovement.current;
+        pointerInteracting.current =
+          e.clientX - pointerInteractionMovement.current;
       }}
       onPointerUp={() => {
         pointerInteracting.current = null;
@@ -104,7 +147,13 @@ function TravelGlobe() {
 }
 
 export function TravelModeOverlay() {
-  const { isTravelMode, setTravelMode, selectedCity, setSelectedCity, visitedCities } = useAppStore();
+  const {
+    isTravelMode,
+    setTravelMode,
+    selectedCity,
+    setSelectedCity,
+    visitedCities,
+  } = useAppStore();
   const { toast } = useToast();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [isDestinationsOpen, setIsDestinationsOpen] = useState(false);
@@ -168,7 +217,8 @@ export function TravelModeOverlay() {
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
+                background:
+                  "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
               }}
             />
           </div>
@@ -184,7 +234,12 @@ export function TravelModeOverlay() {
             >
               <div className="flex items-center gap-2">
                 <Compass className="w-4 h-4 text-[#F0C4A8]" />
-                <span className="font-serif text-sm font-semibold text-white/90" data-testid="text-travel-mode-label">Travel Mode</span>
+                <span
+                  className="font-serif text-sm font-semibold text-white/90"
+                  data-testid="text-travel-mode-label"
+                >
+                  Travel Mode
+                </span>
               </div>
 
               <div className="w-px h-4 bg-white/15" />
@@ -199,8 +254,15 @@ export function TravelModeOverlay() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                 >
                   <MapPin className="w-3.5 h-3.5 text-[#F0C4A8]" />
-                  <span className="text-xs text-white/50 hidden sm:inline">Currently exploring:</span>
-                  <span className="text-xs font-semibold text-white/90" data-testid="text-travel-current-city">{selectedCity}</span>
+                  <span className="text-xs text-white/50 hidden sm:inline">
+                    Currently exploring:
+                  </span>
+                  <span
+                    className="text-xs font-semibold text-white/90"
+                    data-testid="text-travel-current-city"
+                  >
+                    {selectedCity}
+                  </span>
                 </motion.div>
               </AnimatePresence>
 
@@ -260,14 +322,22 @@ export function TravelModeOverlay() {
 
                 {MARKER_LOCATIONS.map((marker) => {
                   const isActive = selectedCity === marker.name;
-                  const labelStyle: Record<string, { top?: string; bottom?: string; left?: string; right?: string }> = {
-                    "Paris":      { top: "18%", right: "18%" },
-                    "London":     { top: "14%", right: "30%" },
-                    "Copenhagen": { top: "10%", left: "38%" },
-                    "Tokyo":      { top: "32%", left: "12%" },
-                    "New York":   { bottom: "28%", left: "14%" },
-                    "Marrakech":  { bottom: "32%", left: "30%" },
-                    "Italy":      { top: "38%", right: "14%" },
+                  const labelStyle: Record<
+                    string,
+                    {
+                      top?: string;
+                      bottom?: string;
+                      left?: string;
+                      right?: string;
+                    }
+                  > = {
+                    Paris: { top: "18%", right: "18%" },
+                    London: { top: "14%", right: "30%" },
+                    Copenhagen: { top: "10%", left: "38%" },
+                    Tokyo: { top: "32%", left: "12%" },
+                    "New York": { bottom: "28%", left: "14%" },
+                    Marrakech: { bottom: "32%", left: "30%" },
+                    "Los Angeles": { top: "38%", right: "14%" },
                   };
                   const pos = labelStyle[marker.name];
                   if (!pos) return null;
@@ -282,7 +352,14 @@ export function TravelModeOverlay() {
                       style={pos}
                       onClick={() => handleCitySelect(marker.name)}
                       whileTap={{ scale: 0.96 }}
-                      animate={isActive ? { scale: [1, 1.04, 1], transition: { duration: 0.4 } } : {}}
+                      animate={
+                        isActive
+                          ? {
+                              scale: [1, 1.04, 1],
+                              transition: { duration: 0.4 },
+                            }
+                          : {}
+                      }
                       data-testid={`button-travel-marker-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
                     >
                       {marker.name}
@@ -307,7 +384,9 @@ export function TravelModeOverlay() {
                 <motion.div
                   className="h-full rounded-full bg-[#F0C4A8]"
                   initial={{ width: 0 }}
-                  animate={{ width: `${(visitedCities.length / MARKER_LOCATIONS.length) * 100}%` }}
+                  animate={{
+                    width: `${(visitedCities.length / MARKER_LOCATIONS.length) * 100}%`,
+                  }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
@@ -336,7 +415,12 @@ export function TravelModeOverlay() {
                   <div className="flex items-center justify-between gap-2 px-5 py-4 border-b border-border/20">
                     <div className="flex items-center gap-2">
                       <Compass className="w-4 h-4 text-[#F0C4A8]" />
-                      <h3 className="font-serif text-sm font-semibold" data-testid="text-destinations-title">Destinations</h3>
+                      <h3
+                        className="font-serif text-sm font-semibold"
+                        data-testid="text-destinations-title"
+                      >
+                        Destinations
+                      </h3>
                     </div>
                     <Button
                       variant="ghost"
@@ -358,21 +442,32 @@ export function TravelModeOverlay() {
                         <Card
                           key={marker.name}
                           className={`p-3 cursor-pointer transition-colors ${
-                            isActive ? "ring-1 ring-[#F0C4A8] bg-[#F0C4A8]/10" : ""
+                            isActive
+                              ? "ring-1 ring-[#F0C4A8] bg-[#F0C4A8]/10"
+                              : ""
                           }`}
                           onClick={() => handleCitySelect(marker.name)}
                           data-testid={`card-travel-city-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
                         >
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <MapPin className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-[#F0C4A8]" : "text-muted-foreground"}`} />
+                              <MapPin
+                                className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-[#F0C4A8]" : "text-muted-foreground"}`}
+                              />
                               <div className="min-w-0">
-                                <p className="text-sm font-medium truncate">{marker.name}</p>
-                                <p className="text-[11px] text-muted-foreground">{marker.country}</p>
+                                <p className="text-sm font-medium truncate">
+                                  {marker.name}
+                                </p>
+                                <p className="text-[11px] text-muted-foreground">
+                                  {marker.country}
+                                </p>
                               </div>
                             </div>
                             {isVisited && (
-                              <Badge variant="secondary" className="text-[9px] rounded-full flex-shrink-0">
+                              <Badge
+                                variant="secondary"
+                                className="text-[9px] rounded-full flex-shrink-0"
+                              >
                                 visited
                               </Badge>
                             )}
@@ -386,14 +481,17 @@ export function TravelModeOverlay() {
                     <div className="flex items-center gap-1.5 mb-2">
                       <Globe className="w-3.5 h-3.5 text-muted-foreground" />
                       <span className="text-xs text-muted-foreground">
-                        {visitedCities.length} of {MARKER_LOCATIONS.length} explored
+                        {visitedCities.length} of {MARKER_LOCATIONS.length}{" "}
+                        explored
                       </span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
                       <motion.div
                         className="h-full rounded-full bg-[#F0C4A8]"
                         initial={{ width: 0 }}
-                        animate={{ width: `${(visitedCities.length / MARKER_LOCATIONS.length) * 100}%` }}
+                        animate={{
+                          width: `${(visitedCities.length / MARKER_LOCATIONS.length) * 100}%`,
+                        }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
                       />
                     </div>

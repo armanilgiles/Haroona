@@ -2,7 +2,7 @@ import { Grid3X3, Flame, Sun, Diamond, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAppStore } from "@/lib/store";
-import { TRENDING_STYLES, PRODUCTS } from "@/lib/mock-data";
+import { TRENDING_STYLES, PRODUCTS } from "@/lib/mock-data_2";
 import type { Product } from "@shared/schema";
 
 const ICON_MAP: Record<string, typeof Grid3X3> = {
@@ -24,7 +24,10 @@ export function TrendingSidebar({ products }: TrendingSidebarProps) {
   return (
     <div className="space-y-4">
       <Card className="p-4 bg-card/60 backdrop-blur-sm border-border/30">
-        <h3 className="font-serif text-base font-semibold mb-3" data-testid="text-trending-title">
+        <h3
+          className="font-serif text-base font-semibold mb-3"
+          data-testid="text-trending-title"
+        >
           Trending
         </h3>
         <div className="space-y-1">
@@ -52,7 +55,10 @@ export function TrendingSidebar({ products }: TrendingSidebarProps) {
 
       <Card className="p-4 bg-card/60 backdrop-blur-sm border-border/30">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-serif text-sm font-semibold" data-testid="text-trending-for-you">
+          <h3
+            className="font-serif text-sm font-semibold"
+            data-testid="text-trending-for-you"
+          >
             Trending For You
           </h3>
           <button className="text-xs text-muted-foreground hover:text-foreground transition-colors">
@@ -69,9 +75,12 @@ export function TrendingSidebar({ products }: TrendingSidebarProps) {
   );
 }
 
-function TrendingProductCard({ product }: { product: typeof PRODUCTS[0] }) {
+function TrendingProductCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   return (
-    <div className="flex items-center gap-3" data-testid={`card-trending-product-${product.id}`}>
+    <div
+      className="flex items-center gap-3"
+      data-testid={`card-trending-product-${product.id}`}
+    >
       <div className="w-14 h-14 rounded-md overflow-hidden flex-shrink-0 bg-muted">
         <img
           src={product.image}

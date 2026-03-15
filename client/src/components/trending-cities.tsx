@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { CITIES } from "@/lib/mock-data";
+import { CITIES } from "@/lib/mock-data_2";
 import { useAppStore } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 
@@ -27,7 +27,10 @@ export function TrendingCities() {
 
   return (
     <Card className="p-4 bg-card/60 backdrop-blur-sm border-border/30">
-      <h3 className="font-serif text-sm font-semibold mb-2" data-testid="text-trending-cities">
+      <h3
+        className="font-serif text-sm font-semibold mb-2"
+        data-testid="text-trending-cities"
+      >
         Destinations
       </h3>
       <div className="space-y-2">
@@ -42,8 +45,14 @@ export function TrendingCities() {
               onClick={() => handleCitySelect(city.name)}
               data-testid={`row-trending-city-${city.id}`}
             >
-              <span className={`text-xs ${isActive ? "font-semibold" : "font-medium"}`}>{city.name}</span>
-              <span className="text-xs text-muted-foreground">{formatFollowers(city.followers)}</span>
+              <span
+                className={`text-xs ${isActive ? "font-semibold" : "font-medium"}`}
+              >
+                {city.name}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {formatFollowers(city.followers)}
+              </span>
             </div>
           );
         })}

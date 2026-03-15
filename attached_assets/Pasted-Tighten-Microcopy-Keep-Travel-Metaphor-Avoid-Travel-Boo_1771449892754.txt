@@ -65,14 +65,14 @@ Avoid words:
 5) Explorer badge wording (make it feel like achievement, not travel status)
 
 For 7-stop unlock:
-	•	“Aruona Explorer” badge is good.
+	•	“Haroona Explorer” badge is good.
 Add a tiny caption:
 	•	“Completed all style stops.” (or “Collected all stops.”)
 
 Share button:
 	•	“Share Passport” → “Share your stops” or “Share Style Passport”
 Clipboard copy text should read like:
-	•	“My Aruona style stops: Tokyo, New York, Paris…”
+	•	“My Haroona style stops: Tokyo, New York, Paris…”
 Not “destinations visited” (too travel-literal).
 
 Toast:

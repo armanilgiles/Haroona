@@ -1,6 +1,6 @@
 ✅ REPLIT INPUT (COPY/PASTE)
 
-Make these corrections so this stops feeling like a standard shopping app and becomes Aruona (travel-through-style). Do not redesign everything — keep the current layout, but change the core loop + language + behavior.
+Make these corrections so this stops feeling like a standard shopping app and becomes Haroona (travel-through-style). Do not redesign everything — keep the current layout, but change the core loop + language + behavior.
 
 1) Globe-first behavior (must)
 	•	Make the globe selection drive the entire page.
@@ -21,9 +21,9 @@ Add a small premium card under “Shop the Globe” on the right called Style Pa
 	•	When a user selects a city, it should be added to visitedCities if not already there.
 	•	Provide a “Clear” action to reset visited cities.
 
-3) Replace generic shopping language (soft Aruona wording)
+3) Replace generic shopping language (soft Haroona wording)
 
-Change UI copy to match Aruona’s calm discovery tone:
+Change UI copy to match Haroona’s calm discovery tone:
 	•	Replace “Search” button text with “Explore”
 	•	Replace “Filter” with “Refine”
 	•	Replace “Sort” with “Adjust”

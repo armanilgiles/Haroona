@@ -69,14 +69,16 @@ export const useAppStore = create<AppState>()(
           hasShownRouteUnlock: false,
           hasShownBadgeUnlock: false,
         }),
-      toggleTravelMode: () => set((state) => ({ isTravelMode: !state.isTravelMode })),
+      toggleTravelMode: () =>
+        set((state) => ({ isTravelMode: !state.isTravelMode })),
       setTravelMode: (value) => set({ isTravelMode: value }),
-      toggleRemoteLock: () => set((state) => ({ isRemoteLockEnabled: !state.isRemoteLockEnabled })),
+      toggleRemoteLock: () =>
+        set((state) => ({ isRemoteLockEnabled: !state.isRemoteLockEnabled })),
       markRouteUnlockShown: () => set({ hasShownRouteUnlock: true }),
       markBadgeUnlockShown: () => set({ hasShownBadgeUnlock: true }),
     }),
     {
-      name: "aruona-store",
+      name: "Haroona-store",
       partialize: (state) => ({
         selectedCity: state.selectedCity,
         selectedCategory: state.selectedCategory,
@@ -86,6 +88,6 @@ export const useAppStore = create<AppState>()(
         hasShownRouteUnlock: state.hasShownRouteUnlock,
         hasShownBadgeUnlock: state.hasShownBadgeUnlock,
       }),
-    }
-  )
+    },
+  ),
 );
