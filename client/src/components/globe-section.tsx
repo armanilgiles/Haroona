@@ -671,37 +671,6 @@ export function GlobeSection() {
     <div className="space-y-4">
       <div className="relative">
         <GlobeCanvas />
-        {MARKER_LOCATIONS.slice(0, 4).map((marker) => {
-          const isActive = selectedCity === marker.name;
-          const positions: Record<string, string> = {
-            Paris: "top-[25%] right-[15%]",
-            Tokyo: "top-[30%] left-[10%]",
-            London: "top-[20%] right-[30%]",
-            "New York": "bottom-[30%] left-[20%]",
-          };
-          return (
-            <motion.button
-              key={marker.name}
-              className={`absolute ${positions[marker.name]} rounded-full px-2.5 py-1 text-[11px] font-medium shadow-sm cursor-pointer transition-colors ${
-                isActive
-                  ? "bg-[#F0C4A8] text-foreground shadow-[0_0_12px_rgba(240,196,168,0.4)]"
-                  : "bg-white/80 backdrop-blur-sm text-foreground/80"
-              }`}
-              onClick={() => handleCitySelect(marker.name)}
-              animate={
-                isActive
-                  ? {
-                      scale: [1, 1.15, 1],
-                      transition: { duration: 0.15, ease: "easeOut" },
-                    }
-                  : { scale: 1 }
-              }
-              data-testid={`button-globe-marker-${marker.name.toLowerCase().replace(/\s/g, "-")}`}
-            >
-              {marker.name}
-            </motion.button>
-          );
-        })}
       </div>
 
       <div>
