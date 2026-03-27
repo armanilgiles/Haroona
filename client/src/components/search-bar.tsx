@@ -16,7 +16,8 @@ export function SearchBar() {
 
   return (
     <div className="px-4 md:px-6 py-4 space-y-3">
-      <div className="flex items-center gap-2 max-w-2xl">
+      {/* /// USE LATER */}
+      {/* <div className="flex items-center gap-2 max-w-2xl">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
@@ -32,7 +33,7 @@ export function SearchBar() {
           <Search className="w-4 h-4 mr-1.5" />
           Explore
         </Button>
-      </div>
+      </div> */}
 
       <div className="space-y-2">
         <div className="flex items-center gap-2 flex-wrap">

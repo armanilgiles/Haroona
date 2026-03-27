@@ -6,7 +6,8 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 export function NavBar() {
   return (
     <nav className="flex items-center justify-between gap-4 px-4 py-3 md:px-6 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
-      <SidebarTrigger data-testid="button-sidebar-toggle" />
+      {/* <SidebarTrigger data-testid="button-sidebar-toggle" /> */}
+      <div style={{ opacity: 0.0 }}></div>
 
       <div className="flex flex-col items-center select-none">
         <h1
@@ -24,7 +25,7 @@ export function NavBar() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button size="icon" variant="ghost" data-testid="button-search-nav">
+        {/* <Button size="icon" variant="ghost" data-testid="button-search-nav">
           <Search className="w-5 h-5" />
         </Button>
         <Avatar className="w-8 h-8 border border-border/50">
@@ -33,7 +34,7 @@ export function NavBar() {
             alt="User"
           />
           <AvatarFallback>U</AvatarFallback>
-        </Avatar>
+        </Avatar> */}
       </div>
     </nav>
   );

@@ -18,21 +18,36 @@ function RemoteSignal() {
       className="sticky top-0 z-30 flex items-center justify-between gap-3 px-4 py-2.5 rounded-md bg-card/80 dark:bg-card/60 backdrop-blur-md border border-border/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
       data-testid="bar-remote-signal"
     >
-      <div className="flex items-center gap-2.5 min-w-0">
-        <div className="w-6 h-6 rounded-full bg-[#F0C4A8]/15 flex items-center justify-center flex-shrink-0">
+      <div className="flex items-start gap-2.5 min-w-0">
+        <div className="w-6 h-6 rounded-full bg-[#F0C4A8]/15 flex items-center justify-center flex-shrink-0 mt-0.5">
           <Globe className="w-3.5 h-3.5 text-[#F0C4A8]" />
         </div>
-        <span
-          className="text-xs text-muted-foreground truncate"
-          data-testid="text-remote-signal"
-        >
-          <span className="font-semibold text-foreground/70">Showing:</span>{" "}
-          <span className="font-medium text-foreground">{selectedCity}</span>
-          <span className="hidden sm:inline text-muted-foreground/60">
-            {" "}
-            &middot; Tap the globe to explore
-          </span>
-        </span>
+
+        <div className="min-w-0" data-testid="text-remote-signal">
+          <div className="text-xs truncate">
+            {isRemoteLockEnabled ? (
+              <>
+                <span className="font-semibold text-foreground/70">
+                  Viewing
+                </span>{" "}
+                <span className="font-medium text-foreground">
+                  {selectedCity}
+                </span>{" "}
+                <span className="font-semibold text-foreground/70">only</span>
+              </>
+            ) : (
+              <span className="font-medium text-foreground">
+                Browsing all cities
+              </span>
+            )}
+          </div>
+
+          <div className="hidden sm:block text-[11px] text-muted-foreground/70 truncate">
+            {isRemoteLockEnabled
+              ? "Products are narrowed to this city"
+              : 'Turn on "Narrow to city" to focus results'}
+          </div>
+        </div>
       </div>
 
       <div className="flex items-center gap-2 flex-shrink-0">
@@ -45,9 +60,15 @@ function RemoteSignal() {
               : "bg-transparent text-muted-foreground"
           }`}
           data-testid="button-toggle-remote-lock"
+          aria-pressed={isRemoteLockEnabled}
+          title={
+            isRemoteLockEnabled
+              ? "Narrow to city is on"
+              : "Narrow to city is off"
+          }
         >
           <MapPin className="w-3 h-3 flex-shrink-0" />
-          <span className="hidden sm:inline">Globe Controls Feed</span>
+          <span className="hidden sm:inline">Narrow to city</span>
           <span
             className={`w-7 h-4 rounded-full relative transition-colors ${
               isRemoteLockEnabled ? "bg-[#F0C4A8]" : "bg-muted-foreground/25"
@@ -64,7 +85,6 @@ function RemoteSignal() {
     </div>
   );
 }
-
 function EmptyGateState() {
   const { setTravelMode } = useAppStore();
 
@@ -113,6 +133,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
     setSelectedVibe,
     isRemoteLockEnabled,
   } = useAppStore();
+
   const displayProducts = products.slice(0, 6);
   const hasFilters =
     selectedCategory !== "All" ||
@@ -121,7 +142,9 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
 
   return (
     <div className="space-y-3">
+      {/* Use Later  */}
       <RemoteSignal />
+
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2">
           <h2
@@ -130,6 +153,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
           >
             Curated Picks
           </h2>
+
           {isRemoteLockEnabled && (
             <Badge
               variant="outline"
@@ -140,6 +164,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
             </Badge>
           )}
         </div>
+
         {hasFilters && (
           <div className="flex items-center gap-1.5 flex-wrap">
             {selectedCategory !== "All" && (
@@ -156,6 +181,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
                 </button>
               </Badge>
             )}
+
             {selectedStyle !== "All" && (
               <Badge
                 variant="secondary"
@@ -170,6 +196,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
                 </button>
               </Badge>
             )}
+
             {selectedVibe !== "All" && (
               <Badge
                 variant="secondary"
@@ -187,6 +214,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
           </div>
         )}
       </div>
+
       <AnimatePresence mode="wait">
         <motion.div
           key={`${selectedCity}-${selectedCategory}-${selectedVibe}`}
@@ -200,7 +228,8 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
               No discoveries match your journey. Try a different stop or vibe.
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            // <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {displayProducts.map((product, index) => (
                 <ProductCard key={product.id} product={product} index={index} />
               ))}
@@ -224,46 +253,49 @@ function ProductCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
+      transition={{ duration: 0.3, delay: index * 0.04 }}
     >
       <Card
-        className="overflow-hidden group hover-elevate"
+        className="overflow-hidden rounded-xl border bg-card shadow-none"
         data-testid={`card-product-${product.id}`}
       >
         <div className="relative">
-          <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5">
+          <div className="absolute top-2 left-2 z-10 flex items-center gap-1">
             <Badge
               variant="secondary"
-              className="text-[10px] bg-white/80 backdrop-blur-sm text-foreground border-none rounded-full px-2"
+              className="h-5 text-[8px] px-1.5 rounded-full bg-white/90 text-foreground border-none"
             >
               {product.cityName}
             </Badge>
+
             {product.isBestSeller && (
               <Badge
                 variant="secondary"
-                className="text-[10px] bg-[#F0C4A8]/80 backdrop-blur-sm text-foreground border-none rounded-full px-2"
+                className="h-5 text-[8px] px-1.5 rounded-full bg-[#F0C4A8]/90 text-foreground border-none"
               >
                 Best Seller
               </Badge>
             )}
           </div>
+
           <button
             onClick={(e) => {
               e.stopPropagation();
               toggleFavorite(product.id);
             }}
-            className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center transition-transform active:scale-90"
+            className="absolute top-2 right-2 z-10 w-6 h-6 rounded-full bg-white/90 flex items-center justify-center"
             data-testid={`button-favorite-${product.id}`}
           >
             <Heart
-              className={`w-3.5 h-3.5 transition-colors ${
+              className={`w-3.5 h-3.5 ${
                 isFav ? "fill-red-500 text-red-500" : "text-muted-foreground"
               }`}
             />
           </button>
-          <div className="h-40 bg-muted/30">
+
+          <div className="aspect-[3/4] bg-muted/30">
             <img
               src={product.image}
               alt={product.name}
@@ -271,27 +303,32 @@ function ProductCard({
             />
           </div>
         </div>
-        <div className="p-3 space-y-0.5">
+
+        <div className="px-2 py-2 space-y-1">
           <p
-            className="text-sm font-medium"
+            className="text-sm leading-4 font-medium line-clamp-2"
             data-testid={`text-product-name-${product.id}`}
           >
             {product.name}
           </p>
+
           <p
-            className="text-sm font-semibold"
+            className="text-base leading-tight font-semibold"
             data-testid={`text-product-price-${product.id}`}
           >
             ${product.price.toLocaleString()}
           </p>
-          <div className="flex items-center gap-1.5">
+
+          <div className="flex items-center gap-1.5 min-w-0">
             <Badge
               variant="outline"
-              className="text-[9px] rounded-full no-default-hover-elevate no-default-active-elevate"
+              className="h-4 text-[7px] px-1.5 rounded-full no-default-hover-elevate no-default-active-elevate"
             >
               {product.vibe}
             </Badge>
-            <p className="text-xs text-muted-foreground">{product.brand}</p>
+            <p className="text-[10px] text-muted-foreground truncate">
+              {product.brand}
+            </p>
           </div>
         </div>
       </Card>

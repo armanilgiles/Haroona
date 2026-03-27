@@ -35,17 +35,26 @@ export default function Home() {
     apiProducts && apiProducts.length > 0
       ? apiProducts
       : [...PRODUCTS, ...RAKUTEN_PRODUCTS_ADAPTED];
-
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
+    const baseFilteredProducts = products.filter((p) => {
       if (isRemoteLockEnabled) {
-        if (p.cityName.toLowerCase() !== selectedCity.toLowerCase())
+        if (p.cityName.toLowerCase() !== selectedCity.toLowerCase()) {
           return false;
+        }
       }
-      if (selectedCategory !== "All" && p.category !== selectedCategory)
+
+      if (selectedCategory !== "All" && p.category !== selectedCategory) {
         return false;
-      if (selectedStyle !== "All" && p.style !== selectedStyle) return false;
-      if (selectedVibe !== "All" && p.vibe !== selectedVibe) return false;
+      }
+
+      if (selectedStyle !== "All" && p.style !== selectedStyle) {
+        return false;
+      }
+
+      if (selectedVibe !== "All" && p.vibe !== selectedVibe) {
+        return false;
+      }
+
       if (searchTerm) {
         const term = searchTerm.toLowerCase();
         return (
@@ -56,8 +65,25 @@ export default function Home() {
           p.vibe.toLowerCase().includes(term)
         );
       }
+
       return true;
     });
+
+    if (isRemoteLockEnabled) {
+      return baseFilteredProducts;
+    }
+
+    const normalizedSelectedCity = selectedCity.toLowerCase();
+
+    const selectedCityProducts = baseFilteredProducts.filter(
+      (p) => p.cityName.toLowerCase() === normalizedSelectedCity,
+    );
+
+    const otherProducts = baseFilteredProducts.filter(
+      (p) => p.cityName.toLowerCase() !== normalizedSelectedCity,
+    );
+
+    return [...selectedCityProducts, ...otherProducts];
   }, [
     products,
     selectedCategory,
@@ -80,11 +106,13 @@ export default function Home() {
 
         <div className="flex flex-col flex-1 min-w-0">
           <NavBar />
-          <SearchBar />
+          {/* Use Later */}
+          {/* <SearchBar /> */}
 
           <div className="flex-1 px-4 md:px-6 pb-20 space-y-6">
             <div className="flex flex-col lg:flex-row gap-8">
-              <main className="flex-1 min-w-0 space-y-6 lg:max-w-[62%]">
+              {/* <main className="flex-1 min-w-0 space-y-6 lg:max-w-[62%]"> */}
+              <main className="flex-1 min-w-0 space-y-6 ">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -104,7 +132,7 @@ export default function Home() {
                 </motion.div>
               </main>
 
-              <aside className="w-full lg:w-80 flex-shrink-0 space-y-4">
+              {/* <aside className="w-full lg:w-80 flex-shrink-0 space-y-4">
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -136,12 +164,12 @@ export default function Home() {
                 >
                   <TrendingCities />
                 </motion.div>
-              </aside>
+              </aside> */}
             </div>
           </div>
 
-          <FloatingActionBar />
-          <TravelModeOverlay />
+          {/* <FloatingActionBar />
+          <TravelModeOverlay /> */}
         </div>
       </div>
     </SidebarProvider>
