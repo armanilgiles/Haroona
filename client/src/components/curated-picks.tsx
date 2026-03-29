@@ -143,7 +143,7 @@ export function CuratedPicks({ products }: CuratedPicksProps) {
   return (
     <div className="space-y-3">
       {/* Use Later  */}
-      <RemoteSignal />
+      {/* <RemoteSignal /> */}
 
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2">
@@ -279,8 +279,8 @@ function ProductCard({
               </Badge>
             )}
           </div>
-
-          <button
+          {/* //Use Later */}
+          {/* <button
             onClick={(e) => {
               e.stopPropagation();
               toggleFavorite(product.id);
@@ -293,7 +293,7 @@ function ProductCard({
                 isFav ? "fill-red-500 text-red-500" : "text-muted-foreground"
               }`}
             />
-          </button>
+          </button> */}
 
           <div className="aspect-[3/4] bg-muted/30">
             <img

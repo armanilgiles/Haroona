@@ -38,7 +38,7 @@ export const useAppStore = create<AppState>()(
       favorites: new Set<string>(),
       visitedCities: [],
       isTravelMode: false,
-      isRemoteLockEnabled: true,
+      isRemoteLockEnabled: false,
       hasShownRouteUnlock: false,
       hasShownBadgeUnlock: false,
       setSelectedCity: (city) =>
